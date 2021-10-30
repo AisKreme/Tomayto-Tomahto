@@ -32,12 +32,14 @@ floor.src = "/images/floor.png";
 let foreground = new Image();
 foreground.src = "/images/foreground.png";
 
-// buttons
+// buttons & header
 let startBtn = document.querySelector("#startBtn");
 let restartBtn = document.querySelector("#restartBtn");
+let title = document.querySelector("#title");
 
 // gamestate
 let intervalId = 0;
+let liveCount = 4;
 let isGameOver = false;
 
 // movement Char
@@ -67,23 +69,24 @@ let snailX = 700,
 let score = 0;
 
 function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(background, 0, 0);
+
+  liveState();
   tomatos();
   chickens();
+
   ctx.drawImage(snail, snailX, snailY);
   ctx.drawImage(girlRight, girlRightX, girlRightY);
   ctx.drawImage(girlLeft, 0, 0);
 
   movement();
 
-  let liveOne = ctx.drawImage(live, 20, 20);
-  let liveTwo = ctx.drawImage(live, live.width + 20, 20);
-  let liveThree = ctx.drawImage(live, live.width + live.width + 20, 20);
-
   ctx.drawImage(floor, 0, canvas.height - floor.height);
   ctx.drawImage(foreground, 0, canvas.height - foreground.height);
   ctx.font = "bold 35px Courier New";
   ctx.fillText(`Score: ${score}`, 30, 120);
+  liveState();
 
   if (isGameOver) {
     cancelAnimationFrame(intervalId);
@@ -120,14 +123,15 @@ function tomatos() {
       tomatoArr[i].y = 0;
       tomatoArr[i].x = Math.floor(Math.random() * canvas.width - tomato.width);
     }
+    // tomato gets caught // rightRightY <= tomatoArr[i].y + tomato.height ?!
+    if (
+      girlRightY == tomatoArr[i].y + tomato.height &&
+      girlRightX + girlRight.width >= tomatoArr[i].x &&
+      girlRightX <= tomatoArr[i].x + tomato.width
+    ) {
+      score++;
+    }
   }
-
-  //if (falling) tomatoY = tomatoY + 2;
-  // if (girlRightX + girlRight.width >= tomato[i].x &&
-  //   girlRightX <= tomato[i].x + tomato.width &&
-  //   (girlRightY <= tomato[i].y + tomato.height) {
-  //   score++;
-  // }
 }
 
 function chickens() {
@@ -144,12 +148,40 @@ function chickens() {
         Math.random() * canvas.width - chicken.width
       );
     }
+    if (
+      girlRightY == chickenArr[i].y + chicken.height &&
+      girlRightX + girlRight.width >= chickenArr[i].x &&
+      girlRightX <= chickenArr[i].x + chicken.width
+    ) {
+      liveCount = liveCount - 1;
+    }
+  }
+}
+
+function liveState() {
+  if (liveCount == 4) {
+    ctx.drawImage(live, 20, 20);
+    ctx.drawImage(live, live.width + 20, 20);
+    ctx.drawImage(live, live.width + live.width + 20, 20);
+  }
+
+  if (liveCount == 3) {
+    ctx.drawImage(live, 20, 20);
+    ctx.drawImage(live, live.width + 20, 20);
+  }
+
+  if (liveCount == 2) {
+    ctx.drawImage(live, 20, 20);
+  }
+  if (liveCount == 0) {
+    isGameOver = true;
   }
 }
 
 function handleStart() {
   startBtn.style.display = "none";
   restartBtn.style.display = "none";
+  title.style.display = "none";
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
   //girlRight.style.imageRendering = "pixelated";

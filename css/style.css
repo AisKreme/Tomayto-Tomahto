@@ -21,24 +21,37 @@ body {
 }
 
 #startBtn {
-  background-color: #83924c;
+  background-color: #bcda52;
   font-weight: 600;
   font-size: 2rem;
   border: 5px solid;
+  border-radius: 20px;
   width: 12rem;
   height: 5rem;
+  text-shadow: 2px 2px 2px #83924c;
 }
 
 #startScreen {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   background-image: url(/images/startImg.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   width: 1024px;
   height: 600px;
+}
+
+#title {
+  padding-bottom: 80px;
+  font-size: 60px;
+  font-family: "Courier New", Courier, monospace;
+  font-style: italic;
+  text-shadow: 1px 2px 3px #9bb836;
+  text-decoration: underline dashed black;
 }
 
 #canvas {
