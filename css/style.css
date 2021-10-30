@@ -1,6 +1,13 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 * {
   padding: 0;
   margin: 0;
+  overflow: hidden;
 }
 
 body {
@@ -45,6 +52,10 @@ body {
   height: 600px;
 }
 
+#restartBtn {
+  display: none;
+}
+
 #title {
   padding-bottom: 80px;
   font-size: 60px;
@@ -55,6 +66,7 @@ body {
 }
 
 #canvas {
+  display: none;
   background-color: rgb(252, 172, 0);
   image-rendering: pixelated;
 }

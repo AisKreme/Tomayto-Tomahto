@@ -32,14 +32,17 @@ floor.src = "/images/floor.png";
 let foreground = new Image();
 foreground.src = "/images/foreground.png";
 
-// buttons & header
+// buttons & header & screen
 let startBtn = document.querySelector("#startBtn");
 let restartBtn = document.querySelector("#restartBtn");
 let title = document.querySelector("#title");
+let startScreen = document.querySelector("#startScreen");
+let resetScreen = document.querySelector("#resetScreen");
 
 // gamestate
 let intervalId = 0;
 let liveCount = 4;
+let speed = 1;
 let isGameOver = false;
 
 // movement Char
@@ -50,6 +53,7 @@ let keyPressCount = 0;
 let isRight = false,
   isLeft = false,
   jump = false;
+let girlSpeed = 2;
 
 // tomatos
 
@@ -63,8 +67,9 @@ let chickenX = 200,
 let chickenArr = [{ x: chickenX, y: chickenY }];
 
 // snail
-let snailX = 700,
+let snailX = canvas.width + 200,
   snailY = 510;
+let snailArr = [{ x: snailX, y: snailY }];
 // score
 let score = 0;
 
@@ -76,7 +81,10 @@ function draw() {
   tomatos();
   chickens();
 
-  ctx.drawImage(snail, snailX, snailY);
+  if (score >= 3) {
+    snailRight();
+  }
+
   ctx.drawImage(girlRight, girlRightX, girlRightY);
   ctx.drawImage(girlLeft, 0, 0);
 
@@ -90,6 +98,7 @@ function draw() {
 
   if (isGameOver) {
     cancelAnimationFrame(intervalId);
+    handleGameOver();
   } else {
     intervalId = requestAnimationFrame(draw);
   }
@@ -98,10 +107,10 @@ function draw() {
 function movement() {
   let jumpGirlRightY = 475 - jumpHeight;
   if (isRight && girlRightX + girlRight.width < canvas.width) {
-    girlRightX = girlRightX + 2;
+    girlRightX = girlRightX + girlSpeed;
   }
   if (isLeft && girlRightX > 0) {
-    girlRightX = girlRightX - 2;
+    girlRightX = girlRightX - girlSpeed;
   }
   if (jump && girlRightY > jumpGirlRightY) {
     girlRightY = girlRightY - jumpHeight;
@@ -116,7 +125,7 @@ function tomatos() {
     ctx.drawImage(tomato, tomatoArr[i].x, tomatoArr[i].y);
 
     // let tomato rain
-    tomatoArr[i].y = tomatoArr[i].y + 1;
+    tomatoArr[i].y = tomatoArr[i].y + speed;
 
     // tomato falls down
     if (tomatoArr[i].y + tomato.height > canvas.height) {
@@ -125,11 +134,23 @@ function tomatos() {
     }
     // tomato gets caught // rightRightY <= tomatoArr[i].y + tomato.height ?!
     if (
-      girlRightY == tomatoArr[i].y + tomato.height &&
+      girlRightY <= tomatoArr[i].y + tomato.height &&
       girlRightX + girlRight.width >= tomatoArr[i].x &&
-      girlRightX <= tomatoArr[i].x + tomato.width
+      girlRightX <= tomatoArr[i].x + tomato.width &&
+      !(girlRightY + girlRight.width < tomatoArr[i].y)
     ) {
       score++;
+      tomatoArr[i].y = canvas.height;
+      if (score == 3) {
+        speed = speed + 0.5;
+      }
+      if (score == 5) {
+        speed = speed + 0.5;
+        girlSpeed = girlSpeed + 0.5;
+      }
+      if (score == 10) {
+        speed = speed + 0.5;
+      }
     }
   }
 }
@@ -139,7 +160,7 @@ function chickens() {
     ctx.drawImage(chicken, chickenArr[i].x, chickenArr[i].y);
 
     // let chicken rain
-    chickenArr[i].y = chickenArr[i].y + 1;
+    chickenArr[i].y = chickenArr[i].y + speed;
 
     // chicken fall down
     if (chickenArr[i].y + chicken.height > canvas.height) {
@@ -149,10 +170,33 @@ function chickens() {
       );
     }
     if (
-      girlRightY == chickenArr[i].y + chicken.height &&
+      girlRightY <= chickenArr[i].y + chicken.height &&
       girlRightX + girlRight.width >= chickenArr[i].x &&
-      girlRightX <= chickenArr[i].x + chicken.width
+      girlRightX <= chickenArr[i].x + chicken.width &&
+      !(girlRightY + girlRight.width < chickenArr[i].y)
     ) {
+      chickenArr[i].y = canvas.height;
+      liveCount = liveCount - 1;
+    }
+  }
+}
+
+function snailRight() {
+  for (let i = 0; i < snailArr.length; i++) {
+    ctx.drawImage(snail, snailArr[i].x, snailArr[i].y);
+
+    snailArr[i].x = snailArr[i].x - 0.4;
+
+    if (snailArr[i].x + snail.width < 0) {
+      snailArr[i].x = canvas.width + 300;
+      snailArr[i].y = snailY;
+    }
+    if (
+      girlRightX <= snailArr[i].x + snail.width &&
+      girlRightX + girlRight.width >= snailArr[i].x &&
+      girlRightY + girlRight.height >= snailArr[i].y
+    ) {
+      snailArr[i].y = canvas.height;
       liveCount = liveCount - 1;
     }
   }
@@ -178,9 +222,39 @@ function liveState() {
   }
 }
 
+function handleGameOver() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // ctx.drawImage(background, 0, 0);
+  // ctx.drawImage(girlRight, girlRightX, girlRightY);
+  // ctx.drawImage(floor, 0, canvas.height - floor.height);
+  // ctx.drawImage(foreground, 0, canvas.height - foreground.height);
+  canvas.style.display = "none";
+  restartBtn.style.display = "block";
+  resetScreen.style.display = "block";
+  isGameOver = false;
+  score = 0;
+  liveCount = 4;
+  // tomatoY = 0;
+  // tomatoX = 500;
+  tomatoArr[0].y = 0;
+  tomatoArr[0].x = 600;
+  // chickenY = 0;
+  // chickenX = 300;
+  chickenArr[0].y = -200;
+  chickenArr[0].x = 300;
+  girlRightX = 200;
+  speed = 1;
+  girlSpeed = 2;
+  // snailX = canvas.width;
+  snailArr[0].x = canvas.width;
+}
+
 function handleStart() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   startBtn.style.display = "none";
+  startScreen.style.display = "none";
   restartBtn.style.display = "none";
+  resetScreen.style.display = "none";
   title.style.display = "none";
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
@@ -191,8 +265,7 @@ function handleStart() {
 window.addEventListener("load", () => {
   canvas.style.display = "none";
   restartBtn.style.display = "none";
-
-  //handleStart();
+  resetScreen.style.display = "none";
 
   document.addEventListener("keydown", (event) => {
     console.log(event.key);
@@ -204,7 +277,7 @@ window.addEventListener("load", () => {
       isRight = true;
       isLeft = false;
     }
-    if (event.key == " " && keyPressCount < 2) {
+    if (event.key == " " && keyPressCount < 3) {
       jump = true;
       keyPressCount++;
       console.log(keyPressCount);
