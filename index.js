@@ -235,12 +235,12 @@ function liveState() {
 }
 
 function handleFrameRate() {
-  if (fpsX >= 60) {
+  if (fpsX > 70) {
     console.log(`${fpsX} FPS detected. Game Mode 1 Set.`);
     speed = 1;
     girlSpeed = 2;
     snailSpeed = 0.4;
-  } else if (fpsX < 60) {
+  } else if (fpsX <= 70) {
     console.log(`${fpsX} FPS detected. Game Mode 2 Set.`);
     speed = 2;
     girlSpeed = 4;
