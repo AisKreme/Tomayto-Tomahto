@@ -26,9 +26,12 @@ Tomayto? Tomahto!
 - username shown while playing
 - second snail coming from left side
 - more difficulty steps
+- better code structure
 - game balance
+- music
 - girl animation
 - potato feature
+- mobile support
 
 ## Data structure
 

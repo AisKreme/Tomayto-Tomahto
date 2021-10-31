@@ -44,7 +44,6 @@ let loginScreen = document.querySelector("#loginScreen");
 // gamestate
 let intervalId = 0;
 let liveCount = 4;
-let speed = 1;
 let isGameOver = false;
 
 // movement Char
@@ -55,7 +54,6 @@ let keyPressCount = 0;
 let isRight = false,
   isLeft = false,
   jump = false;
-let girlSpeed = 2;
 
 // tomatos
 let tomatoX = 500,
@@ -75,10 +73,18 @@ let snailArr = [{ x: snailX, y: snailY }];
 // score
 let score = 0;
 
+// set speed
+let speed;
+let girlSpeed;
+let snailSpeed;
+
+// getScreenRefreshRate(function (FPS) {
+//   console.log(`${FPS} FPS detected. Refresh page for new Test.`);
+// });
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(background, 0, 0);
-
   liveState();
   tomatos();
   chickens();
@@ -189,7 +195,7 @@ function snailRight() {
   for (let i = 0; i < snailArr.length; i++) {
     ctx.drawImage(snail, snailArr[i].x, snailArr[i].y);
 
-    snailArr[i].x = snailArr[i].x - 0.4;
+    snailArr[i].x = snailArr[i].x - snailSpeed;
 
     if (snailArr[i].x + snail.width < 0) {
       snailArr[i].x = canvas.width + 100;
@@ -228,6 +234,20 @@ function liveState() {
   }
 }
 
+function handleFrameRate() {
+  if (fpsX >= 60) {
+    console.log(`${fpsX} FPS detected. Game Mode 1 Set.`);
+    speed = 1;
+    girlSpeed = 2;
+    snailSpeed = 0.4;
+  } else if (fpsX < 60) {
+    console.log(`${fpsX} FPS detected. Game Mode 2 Set.`);
+    speed = 2;
+    girlSpeed = 4;
+    snailSpeed = 0.8;
+  }
+}
+
 function handleGameOver() {
   canvas.style.display = "none";
   restartBtn.style.display = "block";
@@ -254,6 +274,7 @@ function handleStart() {
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
   girlRight.style.imageRendering = "pixelated";
+  handleFrameRate();
   draw();
 }
 
