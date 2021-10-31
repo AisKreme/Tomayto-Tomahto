@@ -77,6 +77,7 @@ let score = 0;
 let speed;
 let girlSpeed;
 let snailSpeed;
+let levelSpeed;
 
 // getScreenRefreshRate(function (FPS) {
 //   console.log(`${FPS} FPS detected. Refresh page for new Test.`);
@@ -151,15 +152,10 @@ function tomatos() {
     ) {
       score++;
       tomatoArr[i].y = canvas.height;
-      if (score == 3) {
-        speed = speed + 0.5;
-      }
-      if (score == 5) {
-        speed = speed + 0.5;
-        girlSpeed = girlSpeed + 0.5;
-      }
-      if (score == 10) {
-        speed = speed + 0.5;
+
+      if (!(score % 5)) {
+        speed = speed + levelSpeed;
+        girlSpeed = girlSpeed + levelSpeed;
       }
     }
   }
@@ -240,11 +236,13 @@ function handleFrameRate() {
     speed = 1;
     girlSpeed = 2;
     snailSpeed = 0.4;
+    levelSpeed = 1;
   } else if (fpsX <= 70) {
     console.log(`${fpsX} FPS detected. Game Mode 2 Set.`);
     speed = 2;
     girlSpeed = 4;
     snailSpeed = 0.8;
+    levelSpeed = 2;
   }
 }
 
