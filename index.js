@@ -272,7 +272,9 @@ function liveState() {
 }
 
 function handleFun(ironhack) {
-  let audio = new Audio("./audioFun.mp3");
+  let audio = new Audio(
+    "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFun.mp3"
+  );
   audio.volume = 0.2;
   let hack = ironhack.toLowerCase();
   for (let i = 0; i < nameList.length; i++) {
