@@ -1,10 +1,10 @@
 # Project's name
 
-Tomayto, Tomahto
+Tomayto? Tomahto!
 
 ## Description
 
-Tomayto, Tomahto is a game where the player has to move a girl horizontally and catch falling tomatos from the sky, while avoiding falling chickens. The player has three lives at the start.
+"Tomayto? Tomahto!" is a game where the player has to move a girl horizontally and catch falling tomatos from the sky, while avoiding falling chickens. The player has three lives at the start.
 
 ## MVP
 
@@ -14,29 +14,45 @@ Tomayto, Tomahto is a game where the player has to move a girl horizontally and 
 
 ## Backlog
 
+### done
+
 - three lives display on top left corner
 - catching one tomato adds one point to scoreboard
 - snails apear from the sides that girl has to jump over
 
+### next
+
+- score shown at gameOverScreen
+- username shown while playing
+- second snail coming from left side
+- more difficulty steps
+- game balance
+- girl animation
+- potato feature
+
 ## Data structure
 
-###.src/index.js
+### index.js
+
+- draw()
+- movement()
+- tomatos()
+- chickens()
+- snailRight()
+- liveState()
+- handleGameOver()
+- handleStart()
 
 ## States Transitions
 
-Definition of the different states and their transition (transition functions)
-
+- loginScreen
 - startScreen
 - gameScreen
-- gameoverScreen
-
-## Task
+- gameOverScreen
 
 ## Additional Links
 
-### Trello
-
-[Link url](https://trello.com)
+[github pages](https://aiskreme.github.io/Tomayto-Tomahto/)
 
 ### Slides
 

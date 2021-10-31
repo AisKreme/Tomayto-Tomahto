@@ -35,9 +35,11 @@ foreground.src = "/images/foreground.png";
 // buttons & header & screen
 let startBtn = document.querySelector("#startBtn");
 let restartBtn = document.querySelector("#restartBtn");
+let loginBtn = document.querySelector("#loginBtn");
 let title = document.querySelector("#title");
 let startScreen = document.querySelector("#startScreen");
 let resetScreen = document.querySelector("#resetScreen");
+let loginScreen = document.querySelector("#loginScreen");
 
 // gamestate
 let intervalId = 0;
@@ -56,18 +58,18 @@ let isRight = false,
 let girlSpeed = 2;
 
 // tomatos
-
 let tomatoX = 500,
   tomatoY = 0;
 let tomatoArr = [{ x: tomatoX, y: tomatoY }];
 let falling = true;
+
 // chicken
 let chickenX = 200,
   chickenY = -300;
 let chickenArr = [{ x: chickenX, y: chickenY }];
 
 // snail
-let snailX = canvas.width + 200,
+let snailX = canvas.width,
   snailY = 510;
 let snailArr = [{ x: snailX, y: snailY }];
 // score
@@ -130,14 +132,16 @@ function tomatos() {
     // tomato falls down
     if (tomatoArr[i].y + tomato.height > canvas.height) {
       tomatoArr[i].y = 0;
-      tomatoArr[i].x = Math.floor(Math.random() * canvas.width - tomato.width);
+      let xTomatoRandom = Math.floor(Math.random() * canvas.width);
+      if (xTomatoRandom >= 0 && xTomatoRandom <= canvas.width - tomato.width)
+        tomatoArr[i].x = xTomatoRandom;
     }
     // tomato gets caught // rightRightY <= tomatoArr[i].y + tomato.height ?!
     if (
       girlRightY <= tomatoArr[i].y + tomato.height &&
       girlRightX + girlRight.width >= tomatoArr[i].x &&
       girlRightX <= tomatoArr[i].x + tomato.width &&
-      !(girlRightY + girlRight.width < tomatoArr[i].y)
+      !(girlRightY + jumpHeight < tomatoArr[i].y)
     ) {
       score++;
       tomatoArr[i].y = canvas.height;
@@ -165,15 +169,15 @@ function chickens() {
     // chicken fall down
     if (chickenArr[i].y + chicken.height > canvas.height) {
       chickenArr[i].y = 0;
-      chickenArr[i].x = Math.floor(
-        Math.random() * canvas.width - chicken.width
-      );
+      let xChickenRandom = Math.floor(Math.random() * canvas.width);
+      if (xChickenRandom >= 0 && xChickenRandom <= canvas.width - chicken.width)
+        chickenArr[i].x = xChickenRandom;
     }
     if (
       girlRightY <= chickenArr[i].y + chicken.height &&
       girlRightX + girlRight.width >= chickenArr[i].x &&
       girlRightX <= chickenArr[i].x + chicken.width &&
-      !(girlRightY + girlRight.width < chickenArr[i].y)
+      !(girlRightY + jumpHeight < chickenArr[i].y)
     ) {
       chickenArr[i].y = canvas.height;
       liveCount = liveCount - 1;
@@ -188,15 +192,17 @@ function snailRight() {
     snailArr[i].x = snailArr[i].x - 0.4;
 
     if (snailArr[i].x + snail.width < 0) {
-      snailArr[i].x = canvas.width + 300;
+      snailArr[i].x = canvas.width + 100;
       snailArr[i].y = snailY;
     }
     if (
       girlRightX <= snailArr[i].x + snail.width &&
       girlRightX + girlRight.width >= snailArr[i].x &&
-      girlRightY + girlRight.height >= snailArr[i].y
+      girlRightY + girlRight.height >= snailArr[i].y &&
+      !(girlRightY + jumpHeight < snailArr[i].y)
     ) {
       snailArr[i].y = canvas.height;
+      snailArr[i].x = snailArr[i].x - 1;
       liveCount = liveCount - 1;
     }
   }
@@ -223,34 +229,23 @@ function liveState() {
 }
 
 function handleGameOver() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // ctx.drawImage(background, 0, 0);
-  // ctx.drawImage(girlRight, girlRightX, girlRightY);
-  // ctx.drawImage(floor, 0, canvas.height - floor.height);
-  // ctx.drawImage(foreground, 0, canvas.height - foreground.height);
   canvas.style.display = "none";
   restartBtn.style.display = "block";
-  resetScreen.style.display = "block";
+  resetScreen.style.display = "flex";
   isGameOver = false;
   score = 0;
   liveCount = 4;
-  // tomatoY = 0;
-  // tomatoX = 500;
   tomatoArr[0].y = 0;
   tomatoArr[0].x = 600;
-  // chickenY = 0;
-  // chickenX = 300;
   chickenArr[0].y = -200;
   chickenArr[0].x = 300;
+  snailArr[0].x = -200;
   girlRightX = 200;
   speed = 1;
   girlSpeed = 2;
-  // snailX = canvas.width;
-  snailArr[0].x = canvas.width;
 }
 
 function handleStart() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   startBtn.style.display = "none";
   startScreen.style.display = "none";
   restartBtn.style.display = "none";
@@ -258,7 +253,7 @@ function handleStart() {
   title.style.display = "none";
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
-  //girlRight.style.imageRendering = "pixelated";
+  girlRight.style.imageRendering = "pixelated";
   draw();
 }
 
@@ -268,7 +263,6 @@ window.addEventListener("load", () => {
   resetScreen.style.display = "none";
 
   document.addEventListener("keydown", (event) => {
-    console.log(event.key);
     if (event.key == "ArrowLeft") {
       isLeft = true;
       isRight = false;
@@ -280,7 +274,6 @@ window.addEventListener("load", () => {
     if (event.key == " " && keyPressCount < 3) {
       jump = true;
       keyPressCount++;
-      console.log(keyPressCount);
     } else {
       jump = false;
     }
@@ -298,6 +291,13 @@ window.addEventListener("load", () => {
       jump = false;
       keyPressCount = 0;
     }
+  });
+
+  loginBtn.addEventListener("click", () => {
+    startBtn.style.display = "block";
+    startScreen.style.display = "flex";
+    loginScreen.style.display = "none";
+    loginBtn.style.display = "none";
   });
 
   startBtn.addEventListener("click", () => {

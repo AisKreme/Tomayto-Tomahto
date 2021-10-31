@@ -5,23 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="style.css" />
     <title>Tomayto? Tomahto!</title>
   </head>
   <body>
     <div id="container">
-      <div id="startScreen">
-        <h1 id="title"
+      <div id="loginScreen"
+        ><h1>Enter your username</h1>
+        <input id="userInput" type="text" placeholder="username" /><br />
+        <button id="loginBtn" class="btn">Login</button></div
+      >
+      <div id="startScreen" class="screen">
+        <h2 id="title" class="screenHead"
           >Tomayto?<br />
-          Tomahto!</h1
+          Tomahto!</h2
         >
-        <button id="startBtn">START</button>
+        <button id="startBtn" class="btn">START</button>
       </div>
-      <canvas id="canvas" width="1024px" height="600px"></canvas>
 
-      <div id="resetScreen"><button id="restartBtn">RESTART</button></div>
+      <canvas id="canvas" width="1024px" height="598px"></canvas>
+
+      <div id="resetScreen" class="screen"
+        ><h2 id="gameOver" class="screenHead">Game Over<br />Try Again!</h2
+        ><button id="restartBtn" class="btn">RESTART</button></div
+      >
     </div>
-    <script src="/src/game.js"></script>
-    <script src="/src/index.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>
