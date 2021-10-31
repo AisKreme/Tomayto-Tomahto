@@ -287,15 +287,19 @@ function handleFun(names) {
   let gameSound = new Audio(
     "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioMain.mp3"
   );
+
   morty.volume = 0.1;
   pokemon.volume = 0.1;
   rick.volume = 0.1;
   gameSound.volume = 0.1;
   let hack = names.toLowerCase();
-  for (let i = 0; i < nameList.length; i++) {
-    if (hack == nameList[i]) {
+
+  if (nameList.includes(hack)) {
+    for (let i = 0; i < nameList.length; i++) {
       if (hack == "rick" || hack == "morty") {
         morty.play();
+        i = nameList.length + 1;
+        return;
       } else if (
         hack == "bulbasaur" ||
         hack == "charmader" ||
@@ -303,8 +307,16 @@ function handleFun(names) {
         hack == "pikachu"
       ) {
         pokemon.play();
-      } else rick.play();
-    } else gameSound.play();
+        i = nameList.length + 1;
+        return;
+      } else {
+        rick.play();
+        i = nameList.length + 1;
+        return;
+      }
+    }
+  } else {
+    gameSound.play();
   }
 }
 
@@ -412,8 +424,8 @@ window.addEventListener("load", () => {
   });
 
   loginBtn.addEventListener("click", () => {
-    handleLogin();
     handleFun(userInput.value);
+    handleLogin();
   });
 
   startBtn.addEventListener("click", () => {
