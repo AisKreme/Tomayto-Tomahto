@@ -40,6 +40,10 @@ let title = document.querySelector("#title");
 let startScreen = document.querySelector("#startScreen");
 let resetScreen = document.querySelector("#resetScreen");
 let loginScreen = document.querySelector("#loginScreen");
+let userName = document.querySelector("#username");
+let userInput = document.querySelector("#userInput");
+let timer = document.querySelector("#timer");
+let scoreCount = document.querySelector("#scoreCount");
 
 // gamestate
 let intervalId = 0;
@@ -246,10 +250,24 @@ function handleFrameRate() {
   }
 }
 
+function startTimer() {}
+
+function handleLogin() {
+  userName.innerText = `Username: ${userInput.value}`;
+  startBtn.style.display = "block";
+  startScreen.style.display = "flex";
+  loginScreen.style.display = "none";
+  loginBtn.style.display = "none";
+  startTimer();
+}
+
 function handleGameOver() {
   canvas.style.display = "none";
   restartBtn.style.display = "block";
   resetScreen.style.display = "flex";
+  scoreCount.style.display = "flex";
+  scoreCount.innerText = `Score: ${score}`;
+
   isGameOver = false;
   score = 0;
   liveCount = 4;
@@ -269,6 +287,7 @@ function handleStart() {
   restartBtn.style.display = "none";
   resetScreen.style.display = "none";
   title.style.display = "none";
+  scoreCount.style.display = "none";
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
   girlRight.style.imageRendering = "pixelated";
@@ -280,6 +299,7 @@ window.addEventListener("load", () => {
   canvas.style.display = "none";
   restartBtn.style.display = "none";
   resetScreen.style.display = "none";
+  scoreCount.style.display = "none";
 
   document.addEventListener("keydown", (event) => {
     if (event.key == "ArrowLeft") {
@@ -313,10 +333,7 @@ window.addEventListener("load", () => {
   });
 
   loginBtn.addEventListener("click", () => {
-    startBtn.style.display = "block";
-    startScreen.style.display = "flex";
-    loginScreen.style.display = "none";
-    loginBtn.style.display = "none";
+    handleLogin();
   });
 
   startBtn.addEventListener("click", () => {

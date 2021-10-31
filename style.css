@@ -11,14 +11,27 @@
 }
 
 body {
+  font-family: "Courier New", Courier, monospace;
   background-color: #83924c;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+#header {
+  background-color: #454d29;
+  color: #c8e855;
+  width: 100vw;
+  height: 5vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 4rem 2rem 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
 
 #container {
-  /* background-color: rgb(0, 105, 175); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,7 +64,6 @@ body {
 .screenHead {
   padding-bottom: 80px;
   font-size: 60px;
-  font-family: "Courier New", Courier, monospace;
   font-style: italic;
   text-shadow: 1px 2px 3px #9bb836;
   text-decoration: underline dashed black;
@@ -87,8 +99,7 @@ h1 {
   padding: 2rem 0 1rem 0;
   font-weight: 700;
   font-family: helvetica;
-  text-decoration: underline;
-  text-decoration-thickness: 5px;
+  text-decoration: 5px underline;
 }
 
 #userInput {
@@ -118,10 +129,12 @@ h1 {
   background-image: url(./images/restartImg.png);
 }
 
-/* #startScreen {
+/* 
+#score {
+}
+#startScreen {
 }
 #title {
 }
-
 #gameOver {
 } */

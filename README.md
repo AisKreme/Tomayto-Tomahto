@@ -8,27 +8,23 @@ Tomayto? Tomahto!
 
 ## MVP
 
-- one girl moving horizontally
-- falling tomatos and chicken appear randomly from the top of the screen
-- catching three chicken will end the game
+- one girl moving horizontally :heavy_check_mark:
+- falling tomatos and chicken appear randomly from the top of the screen :heavy_check_mark:
+- catching three chicken will end the game :heavy_check_mark:
 
 ## Backlog
 
-### done
-
-- three lives display on top left corner
-- catching one tomato adds one point to scoreboard
-- snails apear from the sides that girl has to jump over
-
-### next
-
-- score shown at gameOverScreen
-- username shown while playing
+- three lives display on top left corner :heavy_check_mark:
+- catching one tomato adds one point to scoreboard :heavy_check_mark:
+- snail apears from the side that girl has to jump over :heavy_check_mark:
+- score shown at gameOverScreen :heavy_check_mark:
+- controlls shown at startScreen :heavy_check_mark:
+- username shown while playing :heavy_check_mark:
 - second snail coming from left side
-- more difficulty steps
+- more difficulty steps :heavy_check_mark:
 - better code structure
+- styling details
 - game balance
-- music
 - girl animation
 - potato feature
 - mobile support
@@ -43,8 +39,15 @@ Tomayto? Tomahto!
 - chickens()
 - snailRight()
 - liveState()
+- startTimer()
+- handleFrameRate()
+- handleLogin()
 - handleGameOver()
 - handleStart()
+
+### fps.js
+
+- getScreenRefreshRate()
 
 ## States Transitions
 
