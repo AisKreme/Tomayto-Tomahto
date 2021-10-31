@@ -83,6 +83,43 @@ let girlSpeed;
 let snailSpeed;
 let levelSpeed;
 
+let nameList = [
+  "hauke",
+  "tamara",
+  "rodrigo",
+  "adel",
+  "anne",
+  "consuela",
+  "cullen",
+  "cwk",
+  "wai",
+  "fern",
+  "hugo",
+  "ines",
+  "joana",
+  "joanne",
+  "johannes",
+  "josh",
+  "joshua",
+  "george",
+  "kaj",
+  "luise",
+  "manish",
+  "marcos",
+  "maria",
+  "mario",
+  "marta",
+  "marvin",
+  "nevra",
+  "nico",
+  "ricardo",
+  "taka",
+  "takayuki",
+  "vinayak",
+  "yulia",
+  "julia",
+];
+
 // getScreenRefreshRate(function (FPS) {
 //   console.log(`${FPS} FPS detected. Refresh page for new Test.`);
 // });
@@ -234,6 +271,17 @@ function liveState() {
   }
 }
 
+function handleFun(ironhack) {
+  let audio = new Audio("audioFun.mp3");
+  audio.volume = 0.2;
+  let hack = ironhack.toLowerCase();
+  for (let i = 0; i < nameList.length; i++) {
+    if (hack == nameList[i]) {
+      audio.play();
+    }
+  }
+}
+
 function handleFrameRate() {
   if (fpsX > 70) {
     console.log(`${fpsX} FPS detected. Game Mode 1 Set.`);
@@ -291,6 +339,7 @@ function handleStart() {
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
   girlRight.style.imageRendering = "pixelated";
+
   handleFrameRate();
   draw();
 }
@@ -334,6 +383,7 @@ window.addEventListener("load", () => {
 
   loginBtn.addEventListener("click", () => {
     handleLogin();
+    handleFun(userInput.value);
   });
 
   startBtn.addEventListener("click", () => {
