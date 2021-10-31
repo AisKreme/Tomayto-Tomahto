@@ -288,9 +288,9 @@ function handleFun(names) {
     "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioMain.mp3"
   );
 
-  morty.volume = 0.1;
-  pokemon.volume = 0.1;
-  rick.volume = 0.1;
+  morty.volume = 0.08;
+  pokemon.volume = 0.01;
+  rick.volume = 0.05;
   gameSound.volume = 0.1;
   let hack = names.toLowerCase();
 
