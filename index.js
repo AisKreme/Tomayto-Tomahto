@@ -48,6 +48,7 @@ let scoreCount = document.querySelector("#scoreCount");
 // gamestate
 let intervalId = 0;
 let liveCount = 4;
+let countTime = 0;
 let isGameOver = false;
 
 // movement Char
@@ -118,11 +119,13 @@ let nameList = [
   "vinayak",
   "yulia",
   "julia",
+  "rick",
+  "morty",
+  "bulbasaur",
+  "charmader",
+  "squirtle",
+  "pikachu",
 ];
-
-// getScreenRefreshRate(function (FPS) {
-//   console.log(`${FPS} FPS detected. Refresh page for new Test.`);
-// });
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -271,16 +274,37 @@ function liveState() {
   }
 }
 
-function handleFun(ironhack) {
-  let audio = new Audio(
+function handleFun(names) {
+  let rick = new Audio(
     "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFun.mp3"
   );
-  audio.volume = 0.2;
-  let hack = ironhack.toLowerCase();
+  let morty = new Audio(
+    "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFunThree.mp3"
+  );
+  let pokemon = new Audio(
+    "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFunTwo.mp3"
+  );
+  let gameSound = new Audio(
+    "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioMain.mp3"
+  );
+  morty.volume = 0.1;
+  pokemon.volume = 0.1;
+  rick.volume = 0.1;
+  gameSound.volume = 0.1;
+  let hack = names.toLowerCase();
   for (let i = 0; i < nameList.length; i++) {
     if (hack == nameList[i]) {
-      audio.play();
-    }
+      if (hack == "rick" || hack == "morty") {
+        morty.play();
+      } else if (
+        hack == "bulbasaur" ||
+        hack == "charmader" ||
+        hack == "squirtle" ||
+        hack == "pikachu"
+      ) {
+        pokemon.play();
+      } else rick.play();
+    } else gameSound.play();
   }
 }
 
@@ -290,17 +314,23 @@ function handleFrameRate() {
     speed = 1;
     girlSpeed = 2;
     snailSpeed = 0.4;
-    levelSpeed = 1;
+    levelSpeed = 0.7;
   } else if (fpsX <= 70) {
     console.log(`${fpsX} FPS detected. Game Mode 2 Set.`);
     speed = 2;
     girlSpeed = 4;
-    snailSpeed = 0.8;
+    snailSpeed = 1;
     levelSpeed = 2;
   }
 }
 
-function startTimer() {}
+// function startTimer() {
+//   timer.innerText = `Timer: ${countTime}s`;
+//   let timeId = setInterval(function () {
+//     if (isGameOver) countTime++;
+//     else clearInterval(timeId);
+//   }, 1000);
+// }
 
 function handleLogin() {
   userName.innerText = `Username: ${userInput.value}`;
@@ -308,7 +338,6 @@ function handleLogin() {
   startScreen.style.display = "flex";
   loginScreen.style.display = "none";
   loginBtn.style.display = "none";
-  startTimer();
 }
 
 function handleGameOver() {
@@ -337,7 +366,6 @@ function handleStart() {
   restartBtn.style.display = "none";
   resetScreen.style.display = "none";
   title.style.display = "none";
-  scoreCount.style.display = "none";
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
   girlRight.style.imageRendering = "pixelated";

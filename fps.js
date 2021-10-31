@@ -53,7 +53,7 @@ function getScreenRefreshRate(callback, runIndefinitely) {
 
 // After 500ms, will output the estimated Hz of the monitor (frames per second - FPS)
 getScreenRefreshRate(function (FPS) {
-  console.log(`${FPS} FPS detected. Game Mode Set.`);
+  console.log(`${FPS} FPS detected.`);
 });
 
 // Warning: the method will be executed forever, ideal for live counters
