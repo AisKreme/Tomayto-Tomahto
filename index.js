@@ -6,31 +6,31 @@ canvas.height = 598;
 
 // load images
 let girlRight = new Image();
-girlRight.src = "/images/girlStandRight.png";
+girlRight.src = "images/girlStandRight.png";
 
 let girlLeft = new Image();
 girlLeft.src = "";
 
 let tomato = new Image();
-tomato.src = "/images/tomato.png";
+tomato.src = "images/tomato.png";
 
 let chicken = new Image();
-chicken.src = "/images/chicken.png";
+chicken.src = "images/chicken.png";
 
 let snail = new Image();
-snail.src = "/images/snail.png";
+snail.src = "images/snail.png";
 
 let live = new Image();
-live.src = "/images/live.png";
+live.src = "images/live.png";
 
 let background = new Image();
-background.src = "/images/background.png";
+background.src = "images/background.png";
 
 let floor = new Image();
-floor.src = "/images/floor.png";
+floor.src = "images/floor.png";
 
 let foreground = new Image();
-foreground.src = "/images/foreground.png";
+foreground.src = "images/foreground.png";
 
 // buttons & header & screen
 let startBtn = document.querySelector("#startBtn");
