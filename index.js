@@ -51,6 +51,7 @@ let intervalId = 0;
 let liveCount = 4;
 let countTime = 0;
 let isGameOver = false;
+let timeId;
 
 // movement Char
 let girlRightX = 200,
@@ -134,6 +135,7 @@ function draw() {
   liveState();
   tomatos();
   chickens();
+  timer.innerText = `Timer: ${countTime}s`;
 
   if (score >= 3) {
     snailRight();
@@ -272,6 +274,7 @@ function liveState() {
   }
   if (liveCount == 0) {
     isGameOver = true;
+    clearInterval(timeId);
   }
 }
 
@@ -290,7 +293,7 @@ function handleFun(names) {
   );
 
   morty.volume = 0.08;
-  pokemon.volume = 0.01;
+  pokemon.volume = 0.05;
   rick.volume = 0.05;
   gameSound.volume = 0.1;
   let hack = names.toLowerCase();
@@ -337,13 +340,15 @@ function handleFrameRate() {
   }
 }
 
-// function startTimer() {
-//   timer.innerText = `Timer: ${countTime}s`;
-//   let timeId = setInterval(function () {
-//     if (isGameOver) countTime++;
-//     else clearInterval(timeId);
-//   }, 1000);
-// }
+function startTimer() {
+  console.log(countTime);
+  timeId = setInterval(function () {
+    if (!isGameOver) {
+      countTime++;
+      console.log(countTime);
+    }
+  }, 1000);
+}
 
 function handleLogin() {
   userName.innerText = `Username: ${userInput.value}`;
@@ -384,7 +389,8 @@ function handleStart() {
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
   girlRight.style.imageRendering = "pixelated";
-
+  countTime = 0;
+  startTimer();
   handleFrameRate();
   draw();
 }
