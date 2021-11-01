@@ -5,12 +5,51 @@ canvas.width = 1024;
 canvas.height = 598;
 
 // load images
+// girl right side
 let girlRight = new Image();
 girlRight.src = "./images/girlStandRight.png";
 
-let girlLeft = new Image();
-girlLeft.src = "";
+let girlWalkRightOne = new Image();
+girlWalkRightOne.src = "./images/girlWalkingRightOne.png";
 
+let girlWalkRightTwo = new Image();
+girlWalkRightTwo.src = "./images/girlWalkingRightTwo.png";
+
+let girlWalkRightThree = new Image();
+girlWalkRightThree.src = "./images/girlWalkingRightThree.png";
+
+let girlRightArr = [
+  girlRight,
+  girlWalkRightOne,
+  girlWalkRightTwo,
+  girlWalkRightThree,
+];
+
+let girlRightCount = 0;
+
+// girl left side
+let girlLeft = new Image();
+girlLeft.src = "./images/girlStandLeft.png";
+
+let girlWalkLeftOne = new Image();
+girlWalkLeftOne.src = "./images/girlWalkingLeftOne.png";
+
+let girlWalkLeftTwo = new Image();
+girlWalkLeftTwo.src = "./images/girlWalkingLeftTwo.png";
+
+let girlWalkLeftThree = new Image();
+girlWalkLeftThree.src = "./images/girlWalkingLeftThree.png";
+
+let girlLeftArr = [
+  girlLeft,
+  girlWalkLeftOne,
+  girlWalkLeftTwo,
+  girlWalkLeftThree,
+];
+
+let girlLeftCount = 0;
+
+// rest
 let tomato = new Image();
 tomato.src = "./images/tomato.png";
 
@@ -52,6 +91,7 @@ let liveCount = 4;
 let countTime = 0;
 let isGameOver = false;
 let timeId;
+let walk;
 
 // movement Char
 let girlRightX = 200,
@@ -141,9 +181,7 @@ function draw() {
     snailRight();
   }
 
-  ctx.drawImage(girlRight, girlRightX, girlRightY);
-  ctx.drawImage(girlLeft, 0, 0);
-
+  animation();
   movement();
 
   ctx.drawImage(floor, 0, canvas.height - floor.height);
@@ -157,6 +195,39 @@ function draw() {
     handleGameOver();
   } else {
     intervalId = requestAnimationFrame(draw);
+  }
+}
+
+function animation() {
+  if (jump) {
+    ctx.drawImage(
+      isRight ? girlRightArr[2] : girlLeftArr[2],
+      girlRightX,
+      girlRightY
+    );
+  }
+  if (isRight) {
+    for (let i = 0; i < girlRightArr.length; i++) {
+      ctx.drawImage(
+        girlRightArr[girlRightCount % girlRightArr.length],
+        girlRightX,
+        girlRightY
+      );
+    }
+  }
+
+  if (isLeft) {
+    for (let i = 0; i < girlLeftArr.length; i++) {
+      ctx.drawImage(
+        girlLeftArr[girlLeftCount % girlLeftArr.length],
+        girlRightX,
+        girlRightY
+      );
+    }
+  } else if (!isLeft && !isRight && girlLeftCount > girlRightCount) {
+    ctx.drawImage(girlLeftArr[0], girlRightX, girlRightY);
+  } else if (!isLeft && !isRight) {
+    ctx.drawImage(girlRightArr[0], girlRightX, girlRightY);
   }
 }
 
@@ -341,11 +412,9 @@ function handleFrameRate() {
 }
 
 function startTimer() {
-  console.log(countTime);
   timeId = setInterval(function () {
     if (!isGameOver) {
       countTime++;
-      console.log(countTime);
     }
   }, 1000);
 }
@@ -403,14 +472,17 @@ window.addEventListener("load", () => {
     if (event.key == "ArrowLeft") {
       isLeft = true;
       isRight = false;
+      girlLeftCount++;
     }
     if (event.key == "ArrowRight") {
       isRight = true;
       isLeft = false;
+      girlRightCount++;
     }
     if (event.key == " " && keyPressCount < 3) {
       jump = true;
       keyPressCount++;
+      console.log(keyPressCount);
     } else {
       jump = false;
     }
@@ -419,10 +491,12 @@ window.addEventListener("load", () => {
   document.addEventListener("keyup", (event) => {
     if (event.key == "ArrowRight") {
       isRight = false;
+      girlLeftCount = 0;
     }
 
     if (event.key == "ArrowLeft") {
       isLeft = false;
+      girlRightCount = 0;
     }
     if (event.key == " ") {
       jump = false;
