@@ -262,7 +262,7 @@ function liveState() {
     ctx.drawImage(live, live.width + live.width + 20, 20);
   }
 
-  if (liveCount == 0) {
+  if (liveCount == 3) {
     ctx.drawImage(live, 20, 20);
     ctx.drawImage(live, live.width + 20, 20);
   }
@@ -270,7 +270,7 @@ function liveState() {
   if (liveCount == 2) {
     ctx.drawImage(live, 20, 20);
   }
-  if (liveCount == 3) {
+  if (liveCount == 0) {
     isGameOver = true;
   }
 }
