@@ -9,33 +9,47 @@
     <title>Tomayto? Tomahto!</title>
   </head>
   <body>
+    <!-- Header -->
     <header id="header">
       <div id="firstHead" class="headElem"><span id="username"></span></div>
       <div class="headElem"><span id="scoreCount"></span></div>
       <div id="thirdHead" class="headElem"><span id="timer"></span></div>
     </header>
 
+    <!-- Login Screen -->
     <div id="container">
-      <div id="loginScreen"
-        ><h1>Enter your username</h1>
-        <input id="userInput" type="text" placeholder="username" /><br />
-        <button id="loginBtn" class="btn">Login</button></div
-      >
+      <div id="loginScreen">
+        <h1>Enter your username</h1>
+        <input id="userInput" type="text" placeholder="username" />
+        <br />
+        <button id="loginBtn" class="btn">Login</button>
+      </div>
+
+      <!-- Start Screen -->
       <div id="startScreen" class="screen">
-        <h2 id="title" class="screenHead"
-          >Tomayto?<br />
-          Tomahto!</h2
-        >
+        <h2 id="title" class="screenHead">
+          Tomayto?<br />
+          Tomahto!
+        </h2>
         <button id="startBtn" class="btn">START</button>
       </div>
 
+      <!-- Game Screen -->
       <canvas id="canvas" width="1024px" height="598px"></canvas>
 
-      <div id="resetScreen" class="screen"
-        ><h2 id="gameOver" class="screenHead">Game Over<br />Try Again!</h2
-        ><button id="restartBtn" class="btn">RESTART</button></div
-      >
+      <!-- Game Over -->
+      <div id="resetScreen" class="screen">
+        <h2 id="gameOver" class="screenHead">Game Over</h2>
+        <br />
+        <h2 id="tryAgain" class="screenHead">Try Again!</h2>
+        <div id="gameOverBtn">
+          <button id="restartBtn" class="btn">Restart</button>
+          <button id="quitBtn" class="btn">Exit Game</button>
+        </div>
+      </div>
     </div>
+
+    <!-- Scripts -->
     <script src="fps.js"></script>
     <script src="index.js"></script>
   </body>

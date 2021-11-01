@@ -52,8 +52,8 @@ body {
   justify-content: center;
   align-items: center;
   width: 1024px;
-  /* height: 625px; */
-  height: 800px;
+  height: 680px;
+  /* height: 800px; */
 }
 
 #canvas {
@@ -78,11 +78,18 @@ body {
 }
 
 .screenHead {
-  padding-bottom: 80px;
+  padding-bottom: 60px;
   font-size: 60px;
   font-style: italic;
   text-shadow: 1px 2px 3px #9bb836;
   text-decoration: underline dashed black;
+}
+
+#tryAgain {
+  padding-bottom: 20px;
+  font-size: 30px;
+  text-shadow: none;
+  text-decoration: none;
 }
 
 .btn {
@@ -97,7 +104,9 @@ body {
 }
 .btn:hover {
   background-color: #83924c;
-  color: rgb(14, 14, 14);
+  color: rgb(201, 201, 201);
+  border-color: black;
+  text-shadow: 2px 2px 2px #5a5a5a;
 }
 
 .btn:active {
@@ -146,9 +155,34 @@ h1 {
   height: 3.5rem;
 }
 
+#gameOverBtn {
+  display: flex;
+}
+
 #restartBtn {
   display: none;
   font-size: 1.5rem;
+  margin: 3rem 1rem 2rem 0;
+}
+
+#quitBtn {
+  display: none;
+  font-size: 1.5rem;
+  margin: 3rem 0 2rem 1rem;
+  color: black;
+  text-shadow: 2px 2px 2px #949494;
+  border-color: black;
+  background-color: rgb(201, 201, 201);
+}
+
+#quitBtn:hover {
+  background-color: #868686;
+  color: #b90101;
+}
+
+#quitBtn:active {
+  background-color: #868686;
+  color: rgb(255, 251, 251);
 }
 #resetScreen {
   background-image: url(./images/restartImg.png);

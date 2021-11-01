@@ -1,3 +1,5 @@
+Test [Game](https://aiskreme.github.io/Tomayto-Tomahto/)
+
 # Project's name
 
 Tomayto? Tomahto!
@@ -22,6 +24,7 @@ Tomayto? Tomahto!
 - username shown while playing :heavy_check_mark:
 - second snail coming from left side
 - more difficulty steps :heavy_check_mark:
+- button that turns music off
 - better code structure
 - styling details
 - game balance
@@ -57,8 +60,6 @@ Tomayto? Tomahto!
 - gameOverScreen
 
 ## Additional Links
-
-[github pages](https://aiskreme.github.io/Tomayto-Tomahto/)
 
 ### Slides
 

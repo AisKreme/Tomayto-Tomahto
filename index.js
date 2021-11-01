@@ -36,6 +36,7 @@ foreground.src = "./images/foreground.png";
 let startBtn = document.querySelector("#startBtn");
 let restartBtn = document.querySelector("#restartBtn");
 let loginBtn = document.querySelector("#loginBtn");
+let quitBtn = document.querySelector("#quitBtn");
 let title = document.querySelector("#title");
 let startScreen = document.querySelector("#startScreen");
 let resetScreen = document.querySelector("#resetScreen");
@@ -261,7 +262,7 @@ function liveState() {
     ctx.drawImage(live, live.width + live.width + 20, 20);
   }
 
-  if (liveCount == 3) {
+  if (liveCount == 0) {
     ctx.drawImage(live, 20, 20);
     ctx.drawImage(live, live.width + 20, 20);
   }
@@ -269,7 +270,7 @@ function liveState() {
   if (liveCount == 2) {
     ctx.drawImage(live, 20, 20);
   }
-  if (liveCount == 0) {
+  if (liveCount == 3) {
     isGameOver = true;
   }
 }
@@ -356,6 +357,7 @@ function handleGameOver() {
   canvas.style.display = "none";
   restartBtn.style.display = "block";
   resetScreen.style.display = "flex";
+  quitBtn.style.display = "block";
   scoreCount.style.display = "flex";
   scoreCount.innerText = `Score: ${score}`;
 
@@ -376,6 +378,7 @@ function handleStart() {
   startBtn.style.display = "none";
   startScreen.style.display = "none";
   restartBtn.style.display = "none";
+  quitBtn.style.display = "none";
   resetScreen.style.display = "none";
   title.style.display = "none";
   canvas.style.display = "block";
@@ -388,8 +391,6 @@ function handleStart() {
 
 window.addEventListener("load", () => {
   canvas.style.display = "none";
-  restartBtn.style.display = "none";
-  resetScreen.style.display = "none";
   scoreCount.style.display = "none";
 
   document.addEventListener("keydown", (event) => {
@@ -434,5 +435,9 @@ window.addEventListener("load", () => {
 
   restartBtn.addEventListener("click", () => {
     handleStart();
+  });
+
+  quitBtn.addEventListener("click", () => {
+    location.reload();
   });
 });
