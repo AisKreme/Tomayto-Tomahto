@@ -25,7 +25,7 @@ let girlRightArr = [
   girlWalkRightThree,
 ];
 
-let girlRightCount = 0;
+let girlRightCount = 1;
 
 // girl left side
 let girlLeft = new Image();
@@ -47,7 +47,7 @@ let girlLeftArr = [
   girlWalkLeftThree,
 ];
 
-let girlLeftCount = 0;
+let girlLeftCount = 1;
 
 // rest
 let tomato = new Image();
@@ -181,8 +181,9 @@ function draw() {
     snailRight();
   }
 
-  animation();
   movement();
+  jumpMove();
+  animation();
 
   ctx.drawImage(floor, 0, canvas.height - floor.height);
   ctx.drawImage(foreground, 0, canvas.height - foreground.height);
@@ -199,52 +200,65 @@ function draw() {
 }
 
 function animation() {
-  let leftSide;
-  let rightSide;
-  if (isRight) {
-    for (let i = 0; i < girlRightArr.length; i++) {
-      rightSide = girlRightCount % girlRightArr.length;
-
-      ctx.drawImage(girlRightArr[rightSide], girlRightX, girlRightY);
-    }
-  } else if (isLeft) {
-    for (let i = 0; i < girlLeftArr.length; i++) {
-      leftSide = girlLeftCount % girlLeftArr.length;
-      ctx.drawImage(girlLeftArr[leftSide], girlRightX, girlRightY);
-    }
-  }
+  let girlImage;
 
   if (jump) {
-    ctx.drawImage(
-      isLeft
-        ? girlLeftArr[girlLeftCount % girlLeftArr.length]
-        : girlRightArr[girlRightCount % girlRightArr.length],
-      girlRightX,
-      girlRightY
-    );
+    if (isLeft) {
+      girlImage =
+        girlLeftArr[(keyPressCount + girlLeftCount) % girlLeftArr.length];
+    } else if (isRight) {
+      girlImage =
+        girlRightArr[(keyPressCount + girlLeftCount) % girlRightArr.length];
+    } else {
+      girlImage = girlStandDirection();
+    }
+  } else {
+    if (isLeft) {
+      girlImage = girlLeftArr[girlLeftCount % girlLeftArr.length];
+    } else if (isRight) {
+      girlImage = girlRightArr[girlRightCount % girlRightArr.length];
+    } else {
+      girlImage = girlStandDirection();
+    }
   }
 
+  ctx.drawImage(girlImage, girlRightX, girlRightY);
+}
+
+function girlStandDirection() {
   if (!isLeft && !isRight && girlLeftCount > girlRightCount) {
-    ctx.drawImage(girlLeftArr[0], girlRightX, girlRightY);
-  } else if (!isLeft && !isRight) {
-    ctx.drawImage(girlRightArr[0], girlRightX, girlRightY);
+    return girlLeftArr[0];
   }
+
+  return girlRightArr[0];
 }
 
 function movement() {
-  let jumpGirlRightY = 475 - jumpHeight;
-  if (isRight && girlRightX + girlRight.width < canvas.width) {
-    girlRightX = girlRightX + girlSpeed;
+  let girlX = girlRightX;
+
+  if (isLeft) {
+    girlX = girlRightX - girlSpeed;
+  } else if (isRight) {
+    girlX = girlRightX + girlSpeed;
   }
-  if (isLeft && girlRightX > 0) {
-    girlRightX = girlRightX - girlSpeed;
+
+  if (girlX < 0) {
+    girlX = 50;
+  } else if (girlRight.width + girlRightX > canvas.width) {
+    girlX = canvas.width - girlRight.width - 50;
   }
-  if (jump && girlRightY > jumpGirlRightY) {
-    girlRightY = girlRightY - jumpHeight;
+  girlRightX = girlX;
+}
+
+function jumpMove() {
+  const girlOffsetY = 475;
+  let girlY = girlRightY;
+  if (jump) {
+    girlY = girlOffsetY - jumpHeight;
+  } else if (girlOffsetY - girlRightY > 0) {
+    girlY = girlRightY + 8;
   }
-  if (!jump && girlRightY == jumpGirlRightY) {
-    girlRightY = girlRightY + jumpHeight;
-  }
+  girlRightY = girlY;
 }
 
 function tomatos() {
@@ -468,18 +482,21 @@ window.addEventListener("load", () => {
   canvas.style.display = "none";
   scoreCount.style.display = "none";
 
+  // document.addEventListener("keypress", (event) => {
+  // });
+
   document.addEventListener("keydown", (event) => {
     if (event.key == "ArrowLeft") {
+      girlLeftCount++;
       isLeft = true;
       isRight = false;
-      girlLeftCount++;
     }
     if (event.key == "ArrowRight") {
+      girlRightCount++;
       isRight = true;
       isLeft = false;
-      girlRightCount++;
     }
-    if (event.key == " " && keyPressCount < 3) {
+    if (event.key == " " && keyPressCount < 2) {
       jump = true;
       keyPressCount++;
     } else {
@@ -490,12 +507,12 @@ window.addEventListener("load", () => {
   document.addEventListener("keyup", (event) => {
     if (event.key == "ArrowRight") {
       isRight = false;
-      girlLeftCount = 0;
+      girlLeftCount = 1;
     }
 
     if (event.key == "ArrowLeft") {
       isLeft = false;
-      girlRightCount = 0;
+      girlRightCount = 1;
     }
     if (event.key == " ") {
       jump = false;
