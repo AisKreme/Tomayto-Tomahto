@@ -199,32 +199,32 @@ function draw() {
 }
 
 function animation() {
+  let leftSide;
+  let rightSide;
+  if (isRight) {
+    for (let i = 0; i < girlRightArr.length; i++) {
+      rightSide = girlRightCount % girlRightArr.length;
+
+      ctx.drawImage(girlRightArr[rightSide], girlRightX, girlRightY);
+    }
+  } else if (isLeft) {
+    for (let i = 0; i < girlLeftArr.length; i++) {
+      leftSide = girlLeftCount % girlLeftArr.length;
+      ctx.drawImage(girlLeftArr[leftSide], girlRightX, girlRightY);
+    }
+  }
+
   if (jump) {
     ctx.drawImage(
-      isRight ? girlRightArr[2] : girlLeftArr[2],
+      isLeft
+        ? girlLeftArr[girlLeftCount % girlLeftArr.length]
+        : girlRightArr[girlRightCount % girlRightArr.length],
       girlRightX,
       girlRightY
     );
   }
-  if (isRight) {
-    for (let i = 0; i < girlRightArr.length; i++) {
-      ctx.drawImage(
-        girlRightArr[girlRightCount % girlRightArr.length],
-        girlRightX,
-        girlRightY
-      );
-    }
-  }
 
-  if (isLeft) {
-    for (let i = 0; i < girlLeftArr.length; i++) {
-      ctx.drawImage(
-        girlLeftArr[girlLeftCount % girlLeftArr.length],
-        girlRightX,
-        girlRightY
-      );
-    }
-  } else if (!isLeft && !isRight && girlLeftCount > girlRightCount) {
+  if (!isLeft && !isRight && girlLeftCount > girlRightCount) {
     ctx.drawImage(girlLeftArr[0], girlRightX, girlRightY);
   } else if (!isLeft && !isRight) {
     ctx.drawImage(girlRightArr[0], girlRightX, girlRightY);
@@ -482,7 +482,6 @@ window.addEventListener("load", () => {
     if (event.key == " " && keyPressCount < 3) {
       jump = true;
       keyPressCount++;
-      console.log(keyPressCount);
     } else {
       jump = false;
     }
