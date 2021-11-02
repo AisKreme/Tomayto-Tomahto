@@ -97,6 +97,22 @@ floor.src = "./images/floor.png";
 let foreground = new Image();
 foreground.src = "./images/foreground.png";
 
+// load boomerang
+
+let boomerangOne = new Image();
+boomerangOne.src = "./images/boomerangOne.png";
+
+let boomerangTwo = new Image();
+boomerangTwo.src = "./images/boomerangTwo.png";
+
+let boomerangThree = new Image();
+boomerangThree.src = "./images/boomerangThree.png";
+
+let boomerangFour = new Image();
+boomerangFour.src = "./images/boomerangFour.png";
+
+let boomArr = [boomerangOne, boomerangTwo, boomerangThree, boomerangFour];
+
 // load music
 
 let rick = new Audio(
@@ -148,6 +164,12 @@ let keyPressCount = 0;
 let isRight = false,
   isLeft = false,
   jump = false;
+let looksRight = false;
+let looksLeft = false;
+
+// boomerang
+let boomThrow = false;
+let index = 0;
 
 // tomatos
 let tomatoX = 500,
@@ -228,6 +250,7 @@ function draw() {
     snailRight();
   }
 
+  throwBoomRight();
   animation();
   movement();
   jumpMove();
@@ -244,6 +267,68 @@ function draw() {
   } else {
     intervalId = requestAnimationFrame(draw);
   }
+}
+let boomThrowArr = [{ x: null, y: null }];
+
+function throwBoomRight() {
+  let boomImage;
+  let boomX = girlRightX;
+  let boomY = girlRightY + 7;
+
+  boomImage = boomArr[index % boomArr.length];
+  // boomImage = boomArr[Math.floor(Math.random() * boomArr.length)];
+
+  if (looksRight) {
+    for (let i = 0; i < boomThrowArr.length; i++) {
+      if (boomThrow) {
+        boomThrowArr[i].x = boomThrowArr[i].x + 3;
+        boomThrowArr[i].y = boomThrowArr[i].y;
+        boomX = boomThrowArr[i].x;
+        boomY = boomThrowArr[i].y;
+        if (boomX > canvas.width) {
+          boomX = girlRightX;
+          boomY = girlRightY + 7;
+        }
+      } else {
+        if (boomThrowArr[i].x > girlRightX + girlRight.width) {
+          boomThrowArr[i].x = boomThrowArr[i].x - 3;
+          boomX = boomThrowArr[i].x;
+          boomY = boomThrowArr[i].y;
+        } else {
+          boomThrowArr[i].x = girlRightX;
+          boomThrowArr[i].y = girlRightY + 7;
+          boomX = boomThrowArr[i].x;
+          boomY = boomThrowArr[i].y;
+        }
+      }
+    }
+  } else {
+    for (let i = 0; i < boomThrowArr.length; i++) {
+      if (boomThrow) {
+        boomThrowArr[i].x = boomThrowArr[i].x - 3;
+        boomThrowArr[i].y = boomThrowArr[i].y;
+        boomX = boomThrowArr[i].x;
+        boomY = boomThrowArr[i].y;
+        if (boomX > canvas.width) {
+          boomX = girlRightX;
+          boomY = girlRightY + 7;
+        }
+      } else {
+        if (boomThrowArr[i].x < girlRightX) {
+          boomThrowArr[i].x = boomThrowArr[i].x + 3;
+          boomX = boomThrowArr[i].x;
+          boomY = boomThrowArr[i].y;
+        } else {
+          boomThrowArr[i].x = girlRightX;
+          boomThrowArr[i].y = girlRightY + 7;
+          boomX = boomThrowArr[i].x;
+          boomY = boomThrowArr[i].y;
+        }
+      }
+    }
+  }
+
+  ctx.drawImage(boomImage, boomX, boomY);
 }
 
 function animation() {
@@ -274,9 +359,12 @@ function animation() {
 
 function girlStandDirection() {
   if (!isLeft && !isRight && girlLeftCount > girlRightCount) {
+    looksLeft = true;
+    looksRight = false;
     return girlLeftArr[0];
   }
-
+  looksLeft = false;
+  looksRight = true;
   return girlRightArr[0];
 }
 
@@ -522,8 +610,14 @@ window.addEventListener("load", () => {
   scoreCount.style.display = "none";
   muteBtn.style.display = "none";
 
-  // document.addEventListener("keypress", (event) => {
-  // });
+  document.addEventListener("keypress", (event) => {
+    if (event.key == "x") {
+      index++;
+      index++;
+      index++;
+      boomThrow = true;
+    }
+  });
 
   document.addEventListener("keydown", (event) => {
     if (event.key == "ArrowLeft") {
@@ -557,6 +651,9 @@ window.addEventListener("load", () => {
     if (event.key == " ") {
       jump = false;
       keyPressCount = 0;
+    }
+    if (event.key == "x") {
+      boomThrow = false;
     }
   });
 
