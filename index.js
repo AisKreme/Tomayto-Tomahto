@@ -198,6 +198,7 @@ let speed;
 let girlSpeed;
 let snailSpeed;
 let levelSpeed;
+let boomSpeed;
 
 let nameList = [
   "hauke",
@@ -277,13 +278,12 @@ function throwBoom() {
   let boomImage;
 
   boomImage = boomArr[index % boomArr.length];
-  // boomImage = boomArr[Math.floor(Math.random() * boomArr.length)];
 
   if (looksRight) {
     for (let i = 0; i < boomThrowArr.length; i++) {
       // throw boomerang
       if (boomThrow) {
-        boomThrowArr[i].x = boomThrowArr[i].x + 3;
+        boomThrowArr[i].x = boomThrowArr[i].x + boomSpeed;
         boomThrowArr[i].y = boomThrowArr[i].y;
         boomX = boomThrowArr[i].x;
         boomY = boomThrowArr[i].y;
@@ -293,8 +293,9 @@ function throwBoom() {
           boomX = girlRightX;
           boomY = girlRightY + 20;
         }
-        // comeback
-      } else {
+      }
+      // comeback
+      else {
         if (boomThrowArr[i].x > girlRightX + girlRight.width) {
           boomThrowArr[i].x = boomThrowArr[i].x - 8;
           boomX = boomThrowArr[i].x;
@@ -312,7 +313,7 @@ function throwBoom() {
   } else {
     for (let i = 0; i < boomThrowArr.length; i++) {
       if (boomThrow) {
-        boomThrowArr[i].x = boomThrowArr[i].x - 3;
+        boomThrowArr[i].x = boomThrowArr[i].x - boomSpeed;
         boomThrowArr[i].y = boomThrowArr[i].y;
         boomX = boomThrowArr[i].x;
         boomY = boomThrowArr[i].y;
@@ -444,6 +445,7 @@ function tomatos() {
       if (!(score % 5)) {
         speed = speed + levelSpeed;
         girlSpeed = girlSpeed + levelSpeed;
+        boomSpeed = boomSpeed + levelSpeed;
       }
     }
   }
@@ -583,12 +585,14 @@ function handleFrameRate() {
     girlSpeed = 2;
     snailSpeed = 0.4;
     levelSpeed = 0.7;
+    boomSpeed = 3;
   } else if (fpsX <= 70) {
     console.log(`${fpsX} FPS detected. Game Mode 2 Set.`);
     speed = 2;
     girlSpeed = 4;
     snailSpeed = 1;
-    levelSpeed = 2;
+    levelSpeed = 1.4;
+    boomSpeed = 6;
   }
 }
 
@@ -626,8 +630,10 @@ function handleGameOver() {
   chickenArr[0].x = 300;
   snailArr[0].x = -200;
   girlRightX = 200;
+
   speed = 1;
   girlSpeed = 2;
+  boomSpeed = 3;
 }
 
 function handleStart() {
