@@ -255,7 +255,7 @@ function animation() {
         girlLeftArr[(keyPressCount + girlLeftCount) % girlLeftArr.length];
     } else if (isRight) {
       girlImage =
-        girlRightArr[(keyPressCount + girlLeftCount) % girlRightArr.length];
+        girlRightArr[(keyPressCount + girlRightCount) % girlRightArr.length];
     } else {
       girlImage = girlStandDirection();
     }
