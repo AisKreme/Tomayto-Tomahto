@@ -38,7 +38,7 @@ let girlRightArr = [
   girlWalkRightSix,
 ];
 
-let girlRightCount = 0;
+let girlRightCount = 1;
 
 // girl left side
 let girlLeft = new Image();
@@ -73,7 +73,7 @@ let girlLeftArr = [
   girlWalkLeftSix,
 ];
 
-let girlLeftCount = 0;
+let girlLeftCount = 1;
 
 // rest
 let tomato = new Image();
@@ -228,9 +228,9 @@ function draw() {
     snailRight();
   }
 
+  animation();
   movement();
   jumpMove();
-  animation();
 
   ctx.drawImage(floor, 0, canvas.height - floor.height);
   ctx.drawImage(foreground, 0, canvas.height - foreground.height);
