@@ -197,6 +197,7 @@ h1 {
 }
 
 #muteBtn {
+  display: none;
   font-size: 14px;
   font-weight: 900;
   height: 3rem;
