@@ -149,11 +149,25 @@ h1 {
 }
 
 #loginBtn {
+  background-color: #2dc5fa;
   margin: 1rem;
   border: 4px solid black;
   border-radius: 10px;
   width: 10rem;
   height: 3.5rem;
+  text-shadow: 2px 2px 2px #aaaaaa;
+}
+
+#loginBtn:hover {
+  background-color: rgb(201, 201, 201);
+  color: black;
+  border-color: black;
+  text-shadow: 2px 2px 2px #5a5a5a;
+}
+
+#loginBtn:active {
+  background-color: rgb(201, 201, 201);
+  color: white;
 }
 
 #gameOverBtn {
@@ -193,16 +207,16 @@ h1 {
 
 #muteBtnContainer {
   height: 3rem;
-  width: 8rem;
+  width: 5rem;
 }
 
 #muteBtn {
   display: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 900;
   height: 3rem;
-  width: 8rem;
-  background-color: rgb(252, 172, 0);
+  width: 5rem;
+  background-color: #2dc5fa;
   text-shadow: none;
 }
 #muteBtn:hover {
