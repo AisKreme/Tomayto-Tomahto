@@ -22,7 +22,7 @@ let girlWalkRightFour = new Image();
 girlWalkRightFour.src = "./images/girlWalkingRightFour.png";
 
 let girlWalkRightFive = new Image();
-girlWalkRightFive.src = "./images/girlWalkingRightFive.png";
+girlWalkRightFive.src = "./images/girlWalkingRIghtFive.png";
 
 let girlWalkRightSix = new Image();
 girlWalkRightSix.src = "./images/girlWalkingRightSix.png";
@@ -38,7 +38,7 @@ let girlRightArr = [
   girlWalkRightSix,
 ];
 
-let girlRightCount = 1;
+let girlRightCount = 0;
 
 // girl left side
 let girlLeft = new Image();
@@ -73,7 +73,7 @@ let girlLeftArr = [
   girlWalkLeftSix,
 ];
 
-let girlLeftCount = 1;
+let girlLeftCount = 0;
 
 // rest
 let tomato = new Image();
