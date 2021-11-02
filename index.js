@@ -274,11 +274,16 @@ function draw() {
   }
 }
 
+let b = 0;
 function throwBoom() {
   let boomImage;
-
+  b++;
+  if (b % 30 == 0) {
+    index++;
+    index++;
+    index++;
+  }
   boomImage = boomArr[index % boomArr.length];
-
   if (looksRight) {
     for (let i = 0; i < boomThrowArr.length; i++) {
       // throw boomerang
@@ -349,8 +354,15 @@ function throwBoom() {
   );
 }
 
+let c = 0;
 function animation() {
   let girlImage;
+  c++;
+  if (isLeft && c % 10 == 0) {
+    girlLeftCount++;
+  } else if (isRight && c % 10 == 0) {
+    girlRightCount++;
+  }
 
   if (jump) {
     boomThrowArr[0].height = 0;
@@ -657,25 +669,14 @@ window.addEventListener("load", () => {
   scoreCount.style.display = "none";
   muteBtn.style.display = "none";
 
-  document.addEventListener("keypress", (event) => {
-    if (event.key == "x") {
-      index++;
-      index++;
-      index++;
-      boomThrow = true;
-    }
-  });
-
   document.addEventListener("keydown", (event) => {
     if (event.key == "ArrowLeft") {
-      girlLeftCount++;
       isLeft = true;
       isRight = false;
       looksLeft = true;
       looksRight = false;
     }
     if (event.key == "ArrowRight") {
-      girlRightCount++;
       isRight = true;
       isLeft = false;
       looksLeft = false;
@@ -686,6 +687,9 @@ window.addEventListener("load", () => {
       keyPressCount++;
     } else {
       jump = false;
+    }
+    if (event.key == "x") {
+      boomThrow = true;
     }
   });
 
@@ -705,6 +709,16 @@ window.addEventListener("load", () => {
     }
     if (event.key == "x") {
       boomThrow = false;
+      let count = 0;
+      let intervalId = setInterval(() => {
+        count++;
+        if (index > 0) {
+          index--;
+        }
+        if (count > 60) {
+          clearInterval(intervalId);
+        }
+      }, 200);
     }
   });
 
