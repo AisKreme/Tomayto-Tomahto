@@ -18,11 +18,24 @@ girlWalkRightTwo.src = "./images/girlWalkingRightTwo.png";
 let girlWalkRightThree = new Image();
 girlWalkRightThree.src = "./images/girlWalkingRightThree.png";
 
+let girlWalkRightFour = new Image();
+girlWalkRightFour.src = "./images/girlWalkingRightFour.png";
+
+let girlWalkRightFive = new Image();
+girlWalkRightFive.src = "./images/girlWalkingRightFive.png";
+
+let girlWalkRightSix = new Image();
+girlWalkRightSix.src = "./images/girlWalkingRightSix.png";
+
 let girlRightArr = [
   girlRight,
   girlWalkRightOne,
   girlWalkRightTwo,
   girlWalkRightThree,
+  girlRight,
+  girlWalkRightFour,
+  girlWalkRightFive,
+  girlWalkRightSix,
 ];
 
 let girlRightCount = 1;
@@ -40,11 +53,24 @@ girlWalkLeftTwo.src = "./images/girlWalkingLeftTwo.png";
 let girlWalkLeftThree = new Image();
 girlWalkLeftThree.src = "./images/girlWalkingLeftThree.png";
 
+let girlWalkLeftFour = new Image();
+girlWalkLeftFour.src = "./images/girlWalkingLeftFour.png";
+
+let girlWalkLeftFive = new Image();
+girlWalkLeftFive.src = "./images/girlWalkingLeftFive.png";
+
+let girlWalkLeftSix = new Image();
+girlWalkLeftSix.src = "./images/girlWalkingLeftSix.png";
+
 let girlLeftArr = [
   girlLeft,
   girlWalkLeftOne,
   girlWalkLeftTwo,
   girlWalkLeftThree,
+  girlLeft,
+  girlWalkLeftFour,
+  girlWalkLeftFive,
+  girlWalkLeftSix,
 ];
 
 let girlLeftCount = 1;
@@ -71,11 +97,32 @@ floor.src = "./images/floor.png";
 let foreground = new Image();
 foreground.src = "./images/foreground.png";
 
+// load music
+
+let rick = new Audio(
+  "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFun.mp3"
+);
+let morty = new Audio(
+  "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFunThree.mp3"
+);
+let pokemon = new Audio(
+  "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFunTwo.mp3"
+);
+let gameSound = new Audio(
+  "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioMain.mp3"
+);
+
+morty.volume = 0.08;
+pokemon.volume = 0.05;
+rick.volume = 0.05;
+gameSound.volume = 0.1;
+
 // buttons & header & screen
 let startBtn = document.querySelector("#startBtn");
 let restartBtn = document.querySelector("#restartBtn");
 let loginBtn = document.querySelector("#loginBtn");
 let quitBtn = document.querySelector("#quitBtn");
+let muteBtn = document.querySelector("#muteBtn");
 let title = document.querySelector("#title");
 let startScreen = document.querySelector("#startScreen");
 let resetScreen = document.querySelector("#resetScreen");
@@ -363,24 +410,15 @@ function liveState() {
   }
 }
 
-function handleFun(names) {
-  let rick = new Audio(
-    "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFun.mp3"
-  );
-  let morty = new Audio(
-    "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFunThree.mp3"
-  );
-  let pokemon = new Audio(
-    "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFunTwo.mp3"
-  );
-  let gameSound = new Audio(
-    "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioMain.mp3"
-  );
+function handleMute() {
+  pokemon.pause();
+  rick.pause();
+  morty.pause();
+  gameSound.pause();
+  muteBtn.style.display = "none";
+}
 
-  morty.volume = 0.08;
-  pokemon.volume = 0.05;
-  rick.volume = 0.05;
-  gameSound.volume = 0.1;
+function handleFun(names) {
   let hack = names.toLowerCase();
 
   if (nameList.includes(hack)) {
@@ -439,6 +477,7 @@ function handleLogin() {
   startScreen.style.display = "flex";
   loginScreen.style.display = "none";
   loginBtn.style.display = "none";
+  muteBtn.style.display = "block";
 }
 
 function handleGameOver() {
@@ -481,6 +520,7 @@ function handleStart() {
 window.addEventListener("load", () => {
   canvas.style.display = "none";
   scoreCount.style.display = "none";
+  muteBtn.style.display = "none";
 
   // document.addEventListener("keypress", (event) => {
   // });
@@ -535,5 +575,8 @@ window.addEventListener("load", () => {
 
   quitBtn.addEventListener("click", () => {
     location.reload();
+  });
+  muteBtn.addEventListener("click", () => {
+    handleMute();
   });
 });

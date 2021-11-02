@@ -49,10 +49,11 @@ body {
 
 #container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 1024px;
-  height: 680px;
+  height: 600px;
   /* height: 800px; */
 }
 
@@ -188,6 +189,31 @@ h1 {
 }
 #resetScreen {
   background-image: url(./images/restartImg.png);
+}
+
+#muteBtnContainer {
+  height: 3rem;
+  width: 8rem;
+}
+
+#muteBtn {
+  font-size: 14px;
+  font-weight: 900;
+  height: 3rem;
+  width: 8rem;
+  background-color: rgb(252, 172, 0);
+  text-shadow: none;
+}
+#muteBtn:hover {
+  background-color: rgb(201, 201, 201);
+  color: black;
+  border-color: black;
+  text-shadow: 2px 2px 2px #5a5a5a;
+}
+
+#muteBtn:active {
+  background-color: rgb(201, 201, 201);
+  color: white;
 }
 
 /* 

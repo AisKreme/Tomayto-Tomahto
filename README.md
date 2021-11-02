@@ -24,11 +24,11 @@ Tomayto? Tomahto!
 - username shown while playing :heavy_check_mark:
 - second snail coming from left side
 - more difficulty steps :heavy_check_mark:
-- button that turns music off
+- button that turns music off :heavy_check_mark:
 - better code structure
 - styling details
 - game balance
-- girl animation
+- girl animation :heavy_check_mark:
 - potato feature
 - mobile support
 
