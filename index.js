@@ -171,9 +171,9 @@ let looksLeft = false;
 let boomThrow = false;
 let boomFree = true;
 let index = 0;
-let boomThrowArr = [{ x: null, y: null, height: 0, width: 0 }];
 let boomX = girlRightX;
 let boomY = girlRightY + 20;
+let boomThrowArr = [{ x: boomX, y: boomY, height: 0, width: 0 }];
 
 // tomatos
 let tomatoX = 500,
@@ -296,7 +296,12 @@ function throwBoom() {
       }
       // comeback
       else {
-        if (boomThrowArr[i].x > girlRightX + girlRight.width) {
+        if (boomThrowArr[i].x + boomImage.width < girlRightX) {
+          boomThrowArr[i].x = boomThrowArr[i].x + 8;
+          boomX = boomThrowArr[i].x;
+          boomThrowArr[0].height = 55;
+          boomThrowArr[0].width = 55;
+        } else if (boomThrowArr[i].x > girlRightX + girlRight.width) {
           boomThrowArr[i].x = boomThrowArr[i].x - 8;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
@@ -316,11 +321,16 @@ function throwBoom() {
         boomThrowArr[i].x = boomThrowArr[i].x - boomSpeed;
         boomThrowArr[i].y = boomThrowArr[i].y;
         boomX = boomThrowArr[i].x;
-        boomY = boomThrowArr[i].y;
         boomThrowArr[0].height = 55;
         boomThrowArr[0].width = 55;
       } else {
-        if (boomThrowArr[i].x < girlRightX) {
+        if (boomThrowArr[i].x > girlRightX + girlRight.width) {
+          boomThrowArr[i].x = boomThrowArr[i].x - 8;
+          boomX = boomThrowArr[i].x;
+          boomY = boomThrowArr[i].y;
+          boomThrowArr[0].height = 55;
+          boomThrowArr[0].width = 55;
+        } else if (boomThrowArr[i].x < girlRightX) {
           boomThrowArr[i].x = boomThrowArr[i].x + 8;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
