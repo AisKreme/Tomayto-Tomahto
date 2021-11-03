@@ -164,7 +164,7 @@ let keyPressCount = 0;
 let isRight = false,
   isLeft = false,
   jump = false;
-let looksRight = false;
+let looksRight = true;
 let looksLeft = false;
 
 // boomerang
@@ -278,26 +278,21 @@ let b = 0;
 function throwBoom() {
   let boomImage;
   b++;
-  if (b % 30 == 0) {
-    index++;
-    index++;
+  if (b % 10 == 0) {
     index++;
   }
+
   boomImage = boomArr[index % boomArr.length];
   if (looksRight) {
     for (let i = 0; i < boomThrowArr.length; i++) {
       // throw boomerang
-      if (boomThrow) {
+      if (boomThrow && boomFree) {
         boomThrowArr[i].x = boomThrowArr[i].x + boomSpeed;
         boomThrowArr[i].y = boomThrowArr[i].y;
         boomX = boomThrowArr[i].x;
         boomY = boomThrowArr[i].y;
         boomThrowArr[0].height = 55;
         boomThrowArr[0].width = 55;
-        if (boomX > canvas.width) {
-          boomX = girlRightX;
-          boomY = girlRightY + 20;
-        }
       }
       // comeback
       else {
@@ -308,7 +303,7 @@ function throwBoom() {
           boomThrowArr[0].height = 55;
           boomThrowArr[0].width = 55;
         } else {
-          boomThrowArr[i].x = girlRightX;
+          boomThrowArr[i].x = girlRightX - 5;
           boomThrowArr[i].y = girlRightY + 20;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
@@ -317,17 +312,13 @@ function throwBoom() {
     }
   } else {
     for (let i = 0; i < boomThrowArr.length; i++) {
-      if (boomThrow) {
+      if (boomThrow && boomFree) {
         boomThrowArr[i].x = boomThrowArr[i].x - boomSpeed;
         boomThrowArr[i].y = boomThrowArr[i].y;
         boomX = boomThrowArr[i].x;
         boomY = boomThrowArr[i].y;
         boomThrowArr[0].height = 55;
         boomThrowArr[0].width = 55;
-        if (boomX > canvas.width) {
-          boomX = girlRightX;
-          boomY = girlRightY + 20;
-        }
       } else {
         if (boomThrowArr[i].x < girlRightX) {
           boomThrowArr[i].x = boomThrowArr[i].x + 8;
@@ -358,9 +349,9 @@ let c = 0;
 function animation() {
   let girlImage;
   c++;
-  if (isLeft && c % 10 == 0) {
+  if (isLeft && c % 5 == 0) {
     girlLeftCount++;
-  } else if (isRight && c % 10 == 0) {
+  } else if (isRight && c % 5 == 0) {
     girlRightCount++;
   }
 
@@ -368,11 +359,9 @@ function animation() {
     boomThrowArr[0].height = 0;
     boomThrowArr[0].width = 0;
     if (isLeft) {
-      girlImage =
-        girlLeftArr[(keyPressCount + girlLeftCount) % girlLeftArr.length];
+      girlImage = girlLeftArr[5 + keyPressCount];
     } else if (isRight) {
-      girlImage =
-        girlRightArr[(keyPressCount + girlRightCount) % girlRightArr.length];
+      girlImage = girlRightArr[5 + keyPressCount];
     } else {
       girlImage = girlStandDirection();
     }
@@ -712,7 +701,9 @@ window.addEventListener("load", () => {
       let count = 0;
       let intervalId = setInterval(() => {
         count++;
-        if (index > 0) {
+        if (index > 3) {
+          index--;
+          index--;
           index--;
         }
         if (count > 60) {
