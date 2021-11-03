@@ -330,7 +330,7 @@ function throwBoom() {
           boomY = boomThrowArr[i].y;
           boomThrowArr[0].height = 55;
           boomThrowArr[0].width = 55;
-        } else if (boomThrowArr[i].x < girlRightX) {
+        } else if (boomThrowArr[i].x + boomImage.width < girlRightX) {
           boomThrowArr[i].x = boomThrowArr[i].x + 8;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
@@ -630,6 +630,7 @@ function handleGameOver() {
   resetScreen.style.display = "flex";
   quitBtn.style.display = "block";
   scoreCount.style.display = "flex";
+
   scoreCount.innerText = `Score: ${score}`;
 
   isGameOver = false;
@@ -641,6 +642,7 @@ function handleGameOver() {
   chickenArr[0].x = 300;
   snailArr[0].x = -200;
   girlRightX = 200;
+  boomX = girlRightX;
 
   speed = 1;
   girlSpeed = 2;
