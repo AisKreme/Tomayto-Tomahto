@@ -76,6 +76,7 @@ let girlLeftArr = [
 let girlLeftCount = 0;
 
 // rest
+
 let tomato = new Image();
 tomato.src = "./images/tomato.png";
 
@@ -90,9 +91,6 @@ live.src = "./images/live.png";
 
 let background = new Image();
 background.src = "./images/background.png";
-
-// let betweenGround = new Image();
-// betweenGround.src = "./images/betweenGround.png";
 
 let floor = new Image();
 floor.src = "./images/floor.png";
@@ -154,7 +152,7 @@ video.src =
 
 morty.volume = 0.08;
 pokemon.volume = 0.05;
-// rick.volume = 0.05;
+
 gameSound.volume = 0.1;
 video.volome = 0.05;
 
@@ -302,6 +300,7 @@ function draw() {
     handleMoreFun();
     // fire & Live score
     ctx.drawImage(fireArr[0], canvas.width - fireArr[0].width - 23, 8);
+
     fireLive();
     ctx.font = "bold 35px Courier New";
     ctx.fillText(`${shootLive}/10`, canvas.width - fireArr[0].width - 35, 140);
@@ -310,6 +309,7 @@ function draw() {
 
     tomatos();
     chickens();
+
     if (score >= 3) {
       snailRight();
     }
@@ -669,14 +669,15 @@ function handleMute() {
   pokemon.pause();
   pokemon.currentTime = 0;
   video.pause();
-  video.volume = 0.1;
   video.currentTime = 0;
+  video.volume = 0.2;
   morty.pause();
   morty.currentTime = 0;
   gameSound.pause();
   gameSound.currentTime = 0;
   muteBtn.style.display = "none";
 }
+
 function handleMoreFun() {
   if (fun) {
     video.play();
@@ -741,6 +742,8 @@ function handleGameOver() {
 
   scoreCount.innerText = `Score: ${score}`;
 
+  tomato.src = "./images/tomato.png";
+  live.src = "./images/live.png";
   isGameOver = false;
   score = 0;
   liveCount = 4;
@@ -813,6 +816,15 @@ window.addEventListener("load", () => {
     if (event.key == "x" && boomFree) {
       boomThrow = true;
       boomFree = false;
+    }
+
+    if (event.key == "p") {
+      tomato.src = "./images/potato.png";
+      live.src = "./images/potatoLive.png";
+    }
+    if (event.key == "t") {
+      tomato.src = "./images/tomato.png";
+      live.src = "./images/live.png";
     }
   });
 

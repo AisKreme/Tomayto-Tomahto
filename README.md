@@ -22,15 +22,16 @@ Tomayto? Tomahto!
 - score shown at gameOverScreen :heavy_check_mark:
 - controlls shown at startScreen :heavy_check_mark:
 - username shown while playing :heavy_check_mark:
-- second snail coming from left side
 - more difficulty steps :heavy_check_mark:
 - button that turns music off :heavy_check_mark:
-- better code structure
-- styling details
-- game balance
+- styling details :heavy_check_mark:
+- game balance :heavy_check_mark:
 - girl animation :heavy_check_mark:
-- potato feature
-- mobile support
+- potato feature :heavy_check_mark:
+- boomerang feature :heavy_check_mark:
+- fire animation :heavy_check_mark:
+
+- second snail coming from left side
 
 ## Data structure
 
@@ -48,18 +49,12 @@ Tomayto? Tomahto!
 - handleGameOver()
 - handleStart()
 
-### fps.js
-
-- getScreenRefreshRate()
-
 ## States Transitions
 
 - loginScreen
 - startScreen
 - gameScreen
 - gameOverScreen
-
-## Additional Links
 
 ### Slides
 
