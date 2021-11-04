@@ -231,7 +231,7 @@ let fun = false;
 let speed = 2;
 let girlSpeed = 3;
 let snailSpeed = 1;
-let levelSpeed = 1.2;
+let levelSpeed = 1;
 let boomSpeed = 6;
 
 let nameList = [
@@ -300,12 +300,16 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(background, 0, 0);
     handleMoreFun();
-
+    // fire & Live score
+    ctx.drawImage(fireArr[0], canvas.width - fireArr[0].width - 23, 8);
+    fireLive();
+    ctx.font = "bold 35px Courier New";
+    ctx.fillText(`${shootLive}/10`, canvas.width - fireArr[0].width - 35, 140);
     liveState();
-    tomatos();
-    chickens();
     timer.innerText = `Timer: ${countTime}s`;
 
+    tomatos();
+    chickens();
     if (score >= 3) {
       snailRight();
     }
@@ -319,6 +323,7 @@ function draw() {
     ctx.drawImage(foreground, 0, canvas.height - foreground.height);
     ctx.font = "bold 35px Courier New";
     ctx.fillText(`Score: ${score}`, 30, 120);
+
     liveState();
   }
 }
@@ -564,10 +569,6 @@ function chickens() {
 
       score++;
       shootLive++;
-      console.log(shootLive);
-      if (shootLive % 10 == 0 && liveCount < 4) {
-        liveCount++;
-      }
     }
   }
   handleFire();
@@ -609,12 +610,7 @@ function snailRight() {
       snailArr[i].x = snailArr[i].x - 1;
 
       score++;
-
       shootLive++;
-      console.log(shootLive);
-      if (shootLive % 10 == 0 && liveCount < 4) {
-        liveCount++;
-      }
     }
   }
   handleFire();
@@ -631,6 +627,20 @@ function handleFire() {
   }, 200);
   if (fireBool) {
     ctx.drawImage(fireArr[a % fireArr.length], fireX, fireY);
+  }
+}
+
+function fireLive() {
+  if (shootLive / 10 == 1) {
+    shootLive = 0;
+
+    if (liveCount < 4) {
+      fireX = canvas.width - fireArr[0].width - 23;
+      fireY = 6;
+
+      handleFire();
+      liveCount++;
+    }
   }
 }
 
@@ -659,6 +669,7 @@ function handleMute() {
   pokemon.pause();
   pokemon.currentTime = 0;
   video.pause();
+  video.volume = 0.1;
   video.currentTime = 0;
   morty.pause();
   morty.currentTime = 0;
