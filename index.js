@@ -743,6 +743,11 @@ function handleGameOver() {
   boomY = girlRightY;
 
   jumpHeight = 50;
+  speed = 2;
+  girlSpeed = 3;
+  snailSpeed = 1;
+  levelSpeed = 1.2;
+  boomSpeed = 6;
 
   gravity = false;
 
