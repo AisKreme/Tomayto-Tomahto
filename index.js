@@ -91,6 +91,9 @@ live.src = "./images/live.png";
 let background = new Image();
 background.src = "./images/background.png";
 
+// let betweenGround = new Image();
+// betweenGround.src = "./images/betweenGround.png";
+
 let floor = new Image();
 floor.src = "./images/floor.png";
 
@@ -131,12 +134,10 @@ let fireArr = [fireOne, fireTwo, fireThree, fireFour];
 
 let fireX = canvas.width;
 let fireY = canvas.height;
+let fireBool = false;
 
 // load music
 
-// let rick = new Audio(
-//   "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFun.mp3"
-// );
 let morty = new Audio(
   "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFunThree.mp3"
 );
@@ -220,16 +221,18 @@ let snailArr = [{ x: snailX, y: snailY }];
 // score
 let score = 0;
 
+let shootLive = 0;
+
 //gravity & fun
 let gravity = false;
 let fun = false;
 
 // set speed
-let speed;
-let girlSpeed;
-let snailSpeed;
-let levelSpeed;
-let boomSpeed;
+let speed = 2;
+let girlSpeed = 3;
+let snailSpeed = 1;
+let levelSpeed = 1.2;
+let boomSpeed = 6;
 
 let nameList = [
   "hauke",
@@ -274,40 +277,53 @@ let nameList = [
   "pikachu",
 ];
 
+let fps = 60;
+let now;
+let then = Date.now();
+let interval = 1000 / fps;
+let delta;
+
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(background, 0, 0);
-  handleMoreFun();
-  liveState();
-  tomatos();
-  chickens();
-  timer.innerText = `Timer: ${countTime}s`;
-
-  if (score >= 3) {
-    snailRight();
-  }
-
-  throwBoom();
-  movement();
-  jumpMove();
-  animation();
-
-  ctx.drawImage(floor, 0, canvas.height - floor.height);
-  ctx.drawImage(foreground, 0, canvas.height - foreground.height);
-  ctx.font = "bold 35px Courier New";
-  ctx.fillText(`Score: ${score}`, 30, 120);
-  liveState();
-
   if (isGameOver) {
     cancelAnimationFrame(intervalId);
     handleGameOver();
   } else {
     intervalId = requestAnimationFrame(draw);
   }
+
+  now = Date.now();
+  delta = now - then;
+
+  if (delta > interval) {
+    then = now - (delta % interval);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(background, 0, 0);
+    handleMoreFun();
+
+    liveState();
+    tomatos();
+    chickens();
+    timer.innerText = `Timer: ${countTime}s`;
+
+    if (score >= 3) {
+      snailRight();
+    }
+
+    throwBoom();
+    movement();
+    jumpMove();
+    animation();
+
+    ctx.drawImage(floor, 0, canvas.height - floor.height);
+    ctx.drawImage(foreground, 0, canvas.height - foreground.height);
+    ctx.font = "bold 35px Courier New";
+    ctx.fillText(`Score: ${score}`, 30, 120);
+    liveState();
+  }
 }
 
 let b = 0;
-
 function throwBoom() {
   let boomImage;
   b++;
@@ -330,12 +346,12 @@ function throwBoom() {
       // comeback
       else {
         if (boomThrowArr[i].x + boomImage.width < girlRightX) {
-          boomThrowArr[i].x = boomThrowArr[i].x + 8;
+          boomThrowArr[i].x = boomThrowArr[i].x + boomSpeed;
           boomX = boomThrowArr[i].x;
           boomThrowArr[0].height = 55;
           boomThrowArr[0].width = 55;
         } else if (boomThrowArr[i].x > girlRightX + girlRight.width) {
-          boomThrowArr[i].x = boomThrowArr[i].x - 8;
+          boomThrowArr[i].x = boomThrowArr[i].x - boomSpeed;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
           boomThrowArr[0].height = 55;
@@ -359,19 +375,19 @@ function throwBoom() {
         boomThrowArr[0].width = 55;
       } else {
         if (boomThrowArr[i].x > girlRightX + girlRight.width) {
-          boomThrowArr[i].x = boomThrowArr[i].x - 8;
+          boomThrowArr[i].x = boomThrowArr[i].x - boomSpeed;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
           boomThrowArr[0].height = 55;
           boomThrowArr[0].width = 55;
         } else if (boomThrowArr[i].x + boomImage.width < girlRightX) {
-          boomThrowArr[i].x = boomThrowArr[i].x + 8;
+          boomThrowArr[i].x = boomThrowArr[i].x + boomSpeed;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
           boomThrowArr[0].height = 55;
           boomThrowArr[0].width = 55;
         } else {
-          boomThrowArr[i].x = girlRightX;
+          boomThrowArr[i].x = girlRightX - 5;
           boomThrowArr[i].y = girlRightY + 18;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
@@ -391,6 +407,7 @@ function throwBoom() {
 }
 
 let c = 0;
+let keys = [];
 function animation() {
   let girlImage;
   c++;
@@ -458,15 +475,17 @@ function jumpMove() {
   let girlY = girlRightY;
 
   if (gravity) {
-    if (jump && girlOffsetY - girlRightY - jumpHeight < 350) {
-      girlY = girlRightY - 10;
+    if (keys.includes("space") && girlOffsetY - girlRightY - jumpHeight < 280) {
+      girlY = girlRightY - 5;
     } else if (girlOffsetY - girlRightY > 0) {
-      girlY = girlRightY + 8;
+      girlY = girlRightY + 5;
+      keys.splice(keys.indexOf("space"), 1);
     }
   } else if (jump) {
     girlY = girlOffsetY - jumpHeight;
   } else if (girlOffsetY - girlRightY > 0) {
     girlY = girlRightY + 8;
+    keys.splice(keys.indexOf("space"), 1);
   }
   girlRightY = girlY;
 }
@@ -499,7 +518,7 @@ function tomatos() {
         speed = speed + levelSpeed;
         girlSpeed = girlSpeed + levelSpeed;
         boomSpeed = boomSpeed + levelSpeed;
-        jumpHeight = jumpHeight + 15;
+        jumpHeight = jumpHeight + 10;
       }
     }
   }
@@ -525,6 +544,8 @@ function chickens() {
       chickenArr[i].y < girlRightY + girlRight.height &&
       chickenArr[i].y + chicken.height > girlRightY
     ) {
+      fireBool = false;
+      a = 0;
       chickenArr[i].y = canvas.height;
       liveCount = liveCount - 1;
     }
@@ -534,10 +555,22 @@ function chickens() {
       chickenArr[i].y < boomY + boomArr[0].height &&
       chickenArr[i].y + boomArr[0].height > boomY
     ) {
-      score++;
+      fireX = chickenArr[0].x - 8;
+      fireY = chickenArr[0].y - 40;
+      a = 0;
+      fireBool = true;
       chickenArr[i].y = canvas.height;
+      chickenArr[i].x = chickenArr[i].x - 1;
+
+      score++;
+      shootLive++;
+      console.log(shootLive);
+      if (shootLive % 10 == 0 && liveCount < 4) {
+        liveCount++;
+      }
     }
   }
+  handleFire();
 }
 
 function snailRight() {
@@ -556,6 +589,8 @@ function snailRight() {
       girlRightY + girlRight.height >= snailArr[i].y &&
       !(girlRightY + jumpHeight < snailArr[i].y)
     ) {
+      fireBool = false;
+      a = 0;
       snailArr[i].y = canvas.height;
       snailArr[i].x = snailArr[i].x - 1;
       liveCount = liveCount - 1;
@@ -566,14 +601,38 @@ function snailRight() {
       snailArr[i].y < boomY + boomArr[0].height &&
       snailArr[i].y + boomArr[0].height > boomY
     ) {
+      fireX = snailArr[0].x - 10;
+      fireY = snailArr[0].y - 45;
+      a = 0;
+      fireBool = true;
       snailArr[i].y = canvas.height;
       snailArr[i].x = snailArr[i].x - 1;
+
       score++;
+
+      shootLive++;
+      console.log(shootLive);
+      if (shootLive % 10 == 0 && liveCount < 4) {
+        liveCount++;
+      }
     }
   }
+  handleFire();
 }
 
-function handleFire() {}
+let a = 0;
+function handleFire() {
+  let setIntervalId = setInterval(() => {
+    a++;
+    if (a > 200) {
+      clearInterval(setIntervalId);
+      fireBool = false;
+    }
+  }, 200);
+  if (fireBool) {
+    ctx.drawImage(fireArr[a % fireArr.length], fireX, fireY);
+  }
+}
 
 function liveState() {
   if (liveCount == 4) {
@@ -644,24 +703,6 @@ function handleFun(names) {
   }
 }
 
-function handleFrameRate() {
-  if (fpsX > 70) {
-    console.log(`${fpsX} FPS detected. Game Mode 1 Set.`);
-    speed = 1;
-    girlSpeed = 2;
-    snailSpeed = 0.4;
-    levelSpeed = 0.7;
-    boomSpeed = 3;
-  } else if (fpsX <= 70) {
-    console.log(`${fpsX} FPS detected. Game Mode 2 Set.`);
-    speed = 2;
-    girlSpeed = 4;
-    snailSpeed = 1;
-    levelSpeed = 1.4;
-    boomSpeed = 6;
-  }
-}
-
 function startTimer() {
   timeId = setInterval(function () {
     if (!isGameOver) {
@@ -698,11 +739,11 @@ function handleGameOver() {
   chickenArr[0].x = 300;
   snailArr[0].x = -200;
   girlRightX = 200;
-  boomX = 200;
+  boomX = girlRightX;
+  boomY = girlRightY;
+
   jumpHeight = 50;
-  speed = 1;
-  girlSpeed = 2;
-  boomSpeed = 3;
+
   gravity = false;
 
   handleMute();
@@ -723,7 +764,7 @@ function handleStart() {
   countTime = 0;
   handleFun(userInput.value);
   startTimer();
-  handleFrameRate();
+  // handleFrameRate();
   draw();
 }
 
@@ -748,9 +789,11 @@ window.addEventListener("load", () => {
     if (event.key == " " && keyPressCount < 2) {
       jump = true;
       keyPressCount++;
+      keys.push("space");
     } else {
       jump = false;
     }
+
     if (event.key == "x" && boomFree) {
       boomThrow = true;
       boomFree = false;
@@ -768,6 +811,7 @@ window.addEventListener("load", () => {
       girlRightCount = 1;
     }
     if (event.key == " ") {
+      keys.pop("space");
       jump = false;
       keyPressCount = 0;
     }
