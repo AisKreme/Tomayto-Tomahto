@@ -149,7 +149,7 @@ let gameSound = new Audio(
 
 let video = document.createElement("video");
 video.src =
-  "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/rickVideo.mp4";
+  "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/images/rickVideo.mp4";
 
 morty.volume = 0.08;
 pokemon.volume = 0.05;
