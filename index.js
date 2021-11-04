@@ -760,7 +760,7 @@ function handleGameOver() {
   speed = 2;
   girlSpeed = 3;
   snailSpeed = 1;
-  levelSpeed = 1.2;
+  levelSpeed = 1;
   boomSpeed = 6;
 
   gravity = false;
@@ -825,6 +825,42 @@ window.addEventListener("load", () => {
     if (event.key == "t") {
       tomato.src = "./images/tomato.png";
       live.src = "./images/live.png";
+    }
+    if (event.key == "g") {
+      if (!gravity) {
+        gravity = true;
+      } else gravity = false;
+    }
+
+    if (event.key == "r") {
+      if (!fun) {
+        pokemon.pause();
+        morty.pause();
+        gameSound.pause();
+        fun = true;
+        handleMoreFun();
+      }
+    }
+    if (event.key == "b") {
+      fun = false;
+      video.pause();
+      pokemon.pause();
+      morty.pause();
+      gameSound.play();
+    }
+    if (event.key == "m") {
+      fun = false;
+      video.pause();
+      pokemon.pause();
+      gameSound.pause();
+      morty.play();
+    }
+    if (event.key == "c") {
+      fun = false;
+      video.pause();
+      morty.pause();
+      gameSound.pause();
+      pokemon.play();
     }
   });
 
