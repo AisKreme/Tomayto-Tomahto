@@ -113,11 +113,30 @@ boomerangFour.src = "./images/boomerangFour.png";
 
 let boomArr = [boomerangFour, boomerangThree, boomerangTwo, boomerangOne];
 
+// load fire
+
+let fireOne = new Image();
+fireOne.src = "./images/fireOne.png";
+
+let fireTwo = new Image();
+fireTwo.src = "./images/fireTwo.png";
+
+let fireThree = new Image();
+fireThree.src = "./images/fireThree.png";
+
+let fireFour = new Image();
+fireFour.src = "./images/fireFour.png";
+
+let fireArr = [fireOne, fireTwo, fireThree, fireFour];
+
+let fireX = canvas.width;
+let fireY = canvas.height;
+
 // load music
 
-let rick = new Audio(
-  "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFun.mp3"
-);
+// let rick = new Audio(
+//   "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFun.mp3"
+// );
 let morty = new Audio(
   "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioFunThree.mp3"
 );
@@ -128,10 +147,15 @@ let gameSound = new Audio(
   "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/audioMain.mp3"
 );
 
+let video = document.createElement("video");
+video.src =
+  "https://raw.githubusercontent.com/AisKreme/Tomayto-Tomahto/master/rickVideo.mp4";
+
 morty.volume = 0.08;
 pokemon.volume = 0.05;
-rick.volume = 0.05;
+// rick.volume = 0.05;
 gameSound.volume = 0.1;
+video.volome = 0.05;
 
 // buttons & header & screen
 let startBtn = document.querySelector("#startBtn");
@@ -147,6 +171,7 @@ let userName = document.querySelector("#username");
 let userInput = document.querySelector("#userInput");
 let timer = document.querySelector("#timer");
 let scoreCount = document.querySelector("#scoreCount");
+let gravityCheck = document.querySelector("#gravity");
 
 // gamestate
 let intervalId = 0;
@@ -159,17 +184,19 @@ let walk;
 // movement Char
 let girlRightX = 200,
   girlRightY = 475,
-  jumpHeight = 60;
+  jumpHeight = 50;
 let keyPressCount = 0;
 let isRight = false,
   isLeft = false,
   jump = false;
 let looksRight = true;
 let looksLeft = false;
+let jumpFree = true;
 
 // boomerang
 let boomThrow = false;
 let boomFree = true;
+
 let index = 0;
 let boomX = girlRightX;
 let boomY = girlRightY + 20;
@@ -192,6 +219,10 @@ let snailX = canvas.width,
 let snailArr = [{ x: snailX, y: snailY }];
 // score
 let score = 0;
+
+//gravity & fun
+let gravity = false;
+let fun = false;
 
 // set speed
 let speed;
@@ -246,6 +277,7 @@ let nameList = [
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(background, 0, 0);
+  handleMoreFun();
   liveState();
   tomatos();
   chickens();
@@ -275,6 +307,7 @@ function draw() {
 }
 
 let b = 0;
+
 function throwBoom() {
   let boomImage;
   b++;
@@ -286,7 +319,7 @@ function throwBoom() {
   if (looksRight) {
     for (let i = 0; i < boomThrowArr.length; i++) {
       // throw boomerang
-      if (boomThrow && boomFree) {
+      if (boomThrow) {
         boomThrowArr[i].x = boomThrowArr[i].x + boomSpeed;
         boomThrowArr[i].y = boomThrowArr[i].y;
         boomX = boomThrowArr[i].x;
@@ -309,15 +342,16 @@ function throwBoom() {
           boomThrowArr[0].width = 55;
         } else {
           boomThrowArr[i].x = girlRightX - 5;
-          boomThrowArr[i].y = girlRightY + 20;
+          boomThrowArr[i].y = girlRightY + 18;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
+          boomFree = true;
         }
       }
     }
   } else {
     for (let i = 0; i < boomThrowArr.length; i++) {
-      if (boomThrow && boomFree) {
+      if (boomThrow) {
         boomThrowArr[i].x = boomThrowArr[i].x - boomSpeed;
         boomThrowArr[i].y = boomThrowArr[i].y;
         boomX = boomThrowArr[i].x;
@@ -338,9 +372,10 @@ function throwBoom() {
           boomThrowArr[0].width = 55;
         } else {
           boomThrowArr[i].x = girlRightX;
-          boomThrowArr[i].y = girlRightY + 20;
+          boomThrowArr[i].y = girlRightY + 18;
           boomX = boomThrowArr[i].x;
           boomY = boomThrowArr[i].y;
+          boomFree = true;
         }
       }
     }
@@ -421,7 +456,14 @@ function movement() {
 function jumpMove() {
   const girlOffsetY = 475;
   let girlY = girlRightY;
-  if (jump) {
+
+  if (gravity) {
+    if (jump && girlOffsetY - girlRightY - jumpHeight < 350) {
+      girlY = girlRightY - 10;
+    } else if (girlOffsetY - girlRightY > 0) {
+      girlY = girlRightY + 8;
+    }
+  } else if (jump) {
     girlY = girlOffsetY - jumpHeight;
   } else if (girlOffsetY - girlRightY > 0) {
     girlY = girlRightY + 8;
@@ -443,12 +485,12 @@ function tomatos() {
       if (xTomatoRandom >= 0 && xTomatoRandom <= canvas.width - tomato.width)
         tomatoArr[i].x = xTomatoRandom;
     }
-    // tomato gets caught // rightRightY <= tomatoArr[i].y + tomato.height ?!
+    // tomato gets caught
     if (
-      girlRightY <= tomatoArr[i].y + tomato.height &&
-      girlRightX + girlRight.width >= tomatoArr[i].x &&
-      girlRightX <= tomatoArr[i].x + tomato.width &&
-      !(girlRightY + jumpHeight < tomatoArr[i].y)
+      tomatoArr[i].x < girlRightX + girlRight.width &&
+      tomatoArr[i].x + tomato.width > girlRightX &&
+      tomatoArr[i].y < girlRightY + girlRight.height &&
+      tomatoArr[i].y + tomato.height > girlRightY
     ) {
       score++;
       tomatoArr[i].y = canvas.height;
@@ -457,6 +499,7 @@ function tomatos() {
         speed = speed + levelSpeed;
         girlSpeed = girlSpeed + levelSpeed;
         boomSpeed = boomSpeed + levelSpeed;
+        jumpHeight = jumpHeight + 15;
       }
     }
   }
@@ -477,20 +520,19 @@ function chickens() {
         chickenArr[i].x = xChickenRandom;
     }
     if (
-      girlRightY <= chickenArr[i].y + chicken.height &&
-      girlRightX + girlRight.width >= chickenArr[i].x &&
-      girlRightX <= chickenArr[i].x + chicken.width &&
-      !(girlRightY + jumpHeight < chickenArr[i].y)
+      chickenArr[i].x < girlRightX + girlRight.width &&
+      chickenArr[i].x + chicken.width > girlRightX &&
+      chickenArr[i].y < girlRightY + girlRight.height &&
+      chickenArr[i].y + chicken.height > girlRightY
     ) {
       chickenArr[i].y = canvas.height;
       liveCount = liveCount - 1;
     }
-
     if (
-      boomY <= chickenArr[i].y + chicken.height &&
-      boomX <= chickenArr[i].x + chicken.width &&
-      boomX + boomArr[0].width >= chickenArr[i].x &&
-      !(boomY + boomArr[0].height < chickenArr[i].y)
+      chickenArr[i].x < boomX + boomArr[0].width &&
+      chickenArr[i].x + chicken.width > boomX &&
+      chickenArr[i].y < boomY + boomArr[0].height &&
+      chickenArr[i].y + boomArr[0].height > boomY
     ) {
       score++;
       chickenArr[i].y = canvas.height;
@@ -518,11 +560,11 @@ function snailRight() {
       snailArr[i].x = snailArr[i].x - 1;
       liveCount = liveCount - 1;
     }
-
     if (
-      boomX <= snailArr[i].x + snail.width &&
-      boomX + boomArr[0].width >= snailArr[i].x &&
-      !(boomY + boomArr[0].height < snailArr[i].y)
+      snailArr[i].x < boomX + boomArr[0].width &&
+      snailArr[i].x + snail.width > boomX &&
+      snailArr[i].y < boomY + boomArr[0].height &&
+      snailArr[i].y + boomArr[0].height > boomY
     ) {
       snailArr[i].y = canvas.height;
       snailArr[i].x = snailArr[i].x - 1;
@@ -530,6 +572,8 @@ function snailRight() {
     }
   }
 }
+
+function handleFire() {}
 
 function liveState() {
   if (liveCount == 4) {
@@ -554,10 +598,21 @@ function liveState() {
 
 function handleMute() {
   pokemon.pause();
-  rick.pause();
+  pokemon.currentTime = 0;
+  video.pause();
+  video.currentTime = 0;
   morty.pause();
+  morty.currentTime = 0;
   gameSound.pause();
+  gameSound.currentTime = 0;
   muteBtn.style.display = "none";
+}
+function handleMoreFun() {
+  if (fun) {
+    video.play();
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    video.volume = 0.05;
+  }
 }
 
 function handleFun(names) {
@@ -579,7 +634,7 @@ function handleFun(names) {
         i = nameList.length + 1;
         return;
       } else {
-        rick.play();
+        fun = true;
         i = nameList.length + 1;
         return;
       }
@@ -630,6 +685,7 @@ function handleGameOver() {
   resetScreen.style.display = "flex";
   quitBtn.style.display = "block";
   scoreCount.style.display = "flex";
+  gravityCheck.style.display = "none";
 
   scoreCount.innerText = `Score: ${score}`;
 
@@ -642,11 +698,14 @@ function handleGameOver() {
   chickenArr[0].x = 300;
   snailArr[0].x = -200;
   girlRightX = 200;
-  boomX = girlRightX;
-
+  boomX = 200;
+  jumpHeight = 50;
   speed = 1;
   girlSpeed = 2;
   boomSpeed = 3;
+  gravity = false;
+
+  handleMute();
 }
 
 function handleStart() {
@@ -656,10 +715,13 @@ function handleStart() {
   quitBtn.style.display = "none";
   resetScreen.style.display = "none";
   title.style.display = "none";
+  gravityCheck.style.display = "block";
+  muteBtn.style.display = "block";
   canvas.style.display = "block";
   canvas.style.imageRendering = "pixelated";
   girlRight.style.imageRendering = "pixelated";
   countTime = 0;
+  handleFun(userInput.value);
   startTimer();
   handleFrameRate();
   draw();
@@ -689,8 +751,9 @@ window.addEventListener("load", () => {
     } else {
       jump = false;
     }
-    if (event.key == "x") {
+    if (event.key == "x" && boomFree) {
       boomThrow = true;
+      boomFree = false;
     }
   });
 
@@ -710,6 +773,7 @@ window.addEventListener("load", () => {
     }
     if (event.key == "x") {
       boomThrow = false;
+
       let count = 0;
       let intervalId = setInterval(() => {
         count++;
@@ -726,7 +790,6 @@ window.addEventListener("load", () => {
   });
 
   loginBtn.addEventListener("click", () => {
-    handleFun(userInput.value);
     handleLogin();
   });
 
@@ -743,5 +806,8 @@ window.addEventListener("load", () => {
   });
   muteBtn.addEventListener("click", () => {
     handleMute();
+  });
+  gravityCheck.addEventListener("click", () => {
+    gravity = true;
   });
 });
