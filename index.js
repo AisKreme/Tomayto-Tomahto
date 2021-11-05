@@ -275,6 +275,7 @@ let nameList = [
   "pikachu",
 ];
 
+// fps handling
 let fps = 60;
 let now;
 let then = Date.now();
@@ -300,13 +301,16 @@ function draw() {
     handleMoreFun();
     // fire & Live score
     ctx.drawImage(fireArr[0], canvas.width - fireArr[0].width - 23, 8);
-
     fireLive();
     ctx.font = "bold 35px Courier New";
     ctx.fillText(`${shootLive}/10`, canvas.width - fireArr[0].width - 35, 140);
     liveState();
     timer.innerText = `Timer: ${countTime}s`;
 
+    // gravity mode
+    showGravity();
+
+    // objects & animation
     tomatos();
     chickens();
 
@@ -319,6 +323,7 @@ function draw() {
     jumpMove();
     animation();
 
+    // score, floor & foreground
     ctx.drawImage(floor, 0, canvas.height - floor.height);
     ctx.drawImage(foreground, 0, canvas.height - foreground.height);
     ctx.font = "bold 35px Courier New";
@@ -493,6 +498,28 @@ function jumpMove() {
     keys.splice(keys.indexOf("space"), 1);
   }
   girlRightY = girlY;
+}
+
+let d = 0;
+let gravityOn = false;
+let gravityOff = false;
+function showGravity() {
+  let intervalId = setInterval(() => {
+    d++;
+    if (d > 600) {
+      clearInterval(intervalId);
+      gravityOn = false;
+      gravityOff = false;
+    }
+  }, 200);
+
+  ctx.font = "bold 35px Courier New";
+  if (gravityOn) {
+    ctx.fillText(`Gravity Mode: ON`, 360, 60);
+  }
+  if (gravityOff) {
+    ctx.fillText(`Gravity Mode: OFF`, 360, 60);
+  }
 }
 
 function tomatos() {
@@ -769,6 +796,58 @@ function handleGameOver() {
 }
 
 function handleStart() {
+  document.addEventListener("keydown", (event) => {
+    if (event.key == "p") {
+      tomato.src = "./images/potato.png";
+      chicken.src = "./images/chickenTwo.png";
+      live.src = "./images/potatoLive.png";
+      background.src = "./images/backgroundTwo.png";
+      foreground.src = "./images/foregroundTwo.png";
+      floor.src = "./images/floorTwo.png";
+    }
+    if (event.key == "t") {
+      tomato.src = "./images/tomato.png";
+      chicken.src = "./images/chicken.png";
+      live.src = "./images/live.png";
+      background.src = "./images/background.png";
+      foreground.src = "./images/foreground.png";
+      floor.src = "./images/floor.png";
+    }
+    if (event.key == "r") {
+      if (!fun) {
+        background.src = "./images/background.png";
+        foreground.src = "./images/foreground.png";
+        floor.src = "./images/floor.png";
+        pokemon.pause();
+        morty.pause();
+        gameSound.pause();
+        fun = true;
+        handleMoreFun();
+      }
+    }
+    if (event.key == "b") {
+      fun = false;
+      video.pause();
+      pokemon.pause();
+      morty.pause();
+      gameSound.play();
+    }
+    if (event.key == "m") {
+      fun = false;
+      video.pause();
+      pokemon.pause();
+      gameSound.pause();
+      morty.play();
+    }
+    if (event.key == "u") {
+      fun = false;
+      video.pause();
+      morty.pause();
+      gameSound.pause();
+      pokemon.play();
+    }
+  });
+
   startBtn.style.display = "none";
   startScreen.style.display = "none";
   restartBtn.style.display = "none";
@@ -783,7 +862,7 @@ function handleStart() {
   countTime = 0;
   handleFun(userInput.value);
   startTimer();
-  // handleFrameRate();
+
   draw();
 }
 
@@ -813,65 +892,22 @@ window.addEventListener("load", () => {
       jump = false;
     }
 
-    if (event.key == "x" && boomFree) {
-      boomThrow = true;
-      boomFree = false;
-    }
-
-    if (event.key == "p") {
-      tomato.src = "./images/potato.png";
-      chicken.src = "./images/chickenTwo.png";
-      live.src = "./images/potatoLive.png";
-      background.src = "./images/backgroundTwo.png";
-      foreground.src = "./images/foregroundTwo.png";
-      floor.src = "./images/floorTwo.png";
-    }
-    if (event.key == "t") {
-      tomato.src = "./images/tomato.png";
-      chicken.src = "./images/chicken.png";
-      live.src = "./images/live.png";
-      background.src = "./images/background.png";
-      foreground.src = "./images/foreground.png";
-      floor.src = "./images/floor.png";
-    }
     if (event.key == "g") {
       if (!gravity) {
         gravity = true;
-      } else gravity = false;
-    }
-
-    if (event.key == "r") {
-      if (!fun) {
-        background.src = "./images/background.png";
-        foreground.src = "./images/foreground.png";
-        floor.src = "./images/floor.png";
-        pokemon.pause();
-        morty.pause();
-        gameSound.pause();
-        fun = true;
-        handleMoreFun();
+        gravityOn = true;
+        gravityOff = false;
+        d = 0;
+      } else {
+        gravity = false;
+        gravityOn = false;
+        gravityOff = true;
+        d = 0;
       }
     }
-    if (event.key == "b") {
-      fun = false;
-      video.pause();
-      pokemon.pause();
-      morty.pause();
-      gameSound.play();
-    }
-    if (event.key == "m") {
-      fun = false;
-      video.pause();
-      pokemon.pause();
-      gameSound.pause();
-      morty.play();
-    }
-    if (event.key == "c") {
-      fun = false;
-      video.pause();
-      morty.pause();
-      gameSound.pause();
-      pokemon.play();
+    if (event.key == "x" && boomFree) {
+      boomThrow = true;
+      boomFree = false;
     }
   });
 
