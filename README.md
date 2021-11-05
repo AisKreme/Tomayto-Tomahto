@@ -6,7 +6,7 @@ Tomayto? Tomahto!
 
 ## Description
 
-"Tomayto? Tomahto!" is a game where the player has to move a girl horizontally and catch falling tomatos from the sky, while avoiding falling chickens. The player has three lives at the start.
+"Tomayto? Tomahto!" is a game where the player has to move a girl horizontally and catch falling tomatos from the sky, while avoiding falling chickens. The player has four lives at the start.
 
 ## MVP
 
@@ -38,13 +38,21 @@ Tomayto? Tomahto!
 ### index.js
 
 - draw()
+- throwBoom()
+- animation()
+- girlStandDirection()
 - movement()
+- jumpMove()
 - tomatos()
 - chickens()
 - snailRight()
+- handleFire()
+- fireLive()
 - liveState()
+- handleMute()
+- handleMoreFun()
+- handleFun()
 - startTimer()
-- handleFrameRate()
 - handleLogin()
 - handleGameOver()
 - handleStart()
@@ -56,6 +64,12 @@ Tomayto? Tomahto!
 - gameScreen
 - gameOverScreen
 
-### Slides
+## Credits
 
-[Link Slides.com](http://slides.com)
+### Boomerang design
+
+[Coderwelsch](https://coderwelsch.com)
+
+### Background designs
+
+[Eder Muniz](https://edermuniz.carrd.co/)

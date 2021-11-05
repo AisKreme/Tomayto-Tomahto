@@ -229,7 +229,7 @@ let fun = false;
 let speed = 2;
 let girlSpeed = 3;
 let snailSpeed = 1;
-let levelSpeed = 1;
+let levelSpeed = 1.2;
 let boomSpeed = 6;
 
 let nameList = [
@@ -821,10 +821,16 @@ window.addEventListener("load", () => {
     if (event.key == "p") {
       tomato.src = "./images/potato.png";
       live.src = "./images/potatoLive.png";
+      background.src = "./images/backgroundTwo.png";
+      foreground.src = "./images/foregroundTwo.png";
+      floor.src = "./images/floorTwo.png";
     }
     if (event.key == "t") {
       tomato.src = "./images/tomato.png";
       live.src = "./images/live.png";
+      background.src = "./images/background.png";
+      foreground.src = "./images/foreground.png";
+      floor.src = "./images/floor.png";
     }
     if (event.key == "g") {
       if (!gravity) {
@@ -834,6 +840,9 @@ window.addEventListener("load", () => {
 
     if (event.key == "r") {
       if (!fun) {
+        background.src = "./images/background.png";
+        foreground.src = "./images/foreground.png";
+        floor.src = "./images/floor.png";
         pokemon.pause();
         morty.pause();
         gameSound.pause();
