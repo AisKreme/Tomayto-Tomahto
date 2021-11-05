@@ -820,6 +820,7 @@ window.addEventListener("load", () => {
 
     if (event.key == "p") {
       tomato.src = "./images/potato.png";
+      chicken.src = "./images/chickenTwo.png";
       live.src = "./images/potatoLive.png";
       background.src = "./images/backgroundTwo.png";
       foreground.src = "./images/foregroundTwo.png";
@@ -827,6 +828,7 @@ window.addEventListener("load", () => {
     }
     if (event.key == "t") {
       tomato.src = "./images/tomato.png";
+      chicken.src = "./images/chicken.png";
       live.src = "./images/live.png";
       background.src = "./images/background.png";
       foreground.src = "./images/foreground.png";
